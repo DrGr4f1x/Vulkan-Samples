@@ -42,20 +42,20 @@ class DescriptorSetLayout
 	 * @param shader_modules The shader modules this set layout will be used for
 	 * @param resource_set A grouping of shader resources belonging to the same set
 	 */
-	DescriptorSetLayout(Device &                           device,
-	                    const uint32_t                     set_index,
-	                    const std::vector<ShaderModule *> &shader_modules,
-	                    const std::vector<ShaderResource> &resource_set);
+	DescriptorSetLayout(Device& device,
+	                    const uint32_t setIndex,
+	                    const std::vector<ShaderModule*>& shaderModules,
+	                    const std::vector<ShaderResource>& resourceSet);
 
-	DescriptorSetLayout(const DescriptorSetLayout &) = delete;
+	DescriptorSetLayout(const DescriptorSetLayout&) = delete;
 
-	DescriptorSetLayout(DescriptorSetLayout &&other);
+	DescriptorSetLayout(DescriptorSetLayout&& other);
 
 	~DescriptorSetLayout();
 
-	DescriptorSetLayout &operator=(const DescriptorSetLayout &) = delete;
+	DescriptorSetLayout& operator=(const DescriptorSetLayout&) = delete;
 
-	DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
+	DescriptorSetLayout& operator=(DescriptorSetLayout&&) = delete;
 
 	VkDescriptorSetLayout GetHandle() const;
 
@@ -63,33 +63,33 @@ class DescriptorSetLayout
 
 	const std::vector<VkDescriptorSetLayoutBinding>& GetBindings() const;
 
-	std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const uint32_t binding_index) const;
+	std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const uint32_t bindingIndex) const;
 
-	std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const std::string &name) const;
+	std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const std::string& name) const;
 
 	const std::vector<VkDescriptorBindingFlagsEXT>& GetBindingFlags() const;
 
-	VkDescriptorBindingFlagsEXT GetLayoutBindingFlag(const uint32_t binding_index) const;
+	VkDescriptorBindingFlagsEXT GetLayoutBindingFlag(const uint32_t bindingIndex) const;
 
-	const std::vector<ShaderModule *>& GetShaderModules() const;
+	const std::vector<ShaderModule*>& GetShaderModules() const;
 
   private:
-	Device &device;
+	Device& m_device;
 
-	VkDescriptorSetLayout handle{VK_NULL_HANDLE};
+	VkDescriptorSetLayout m_handle{VK_NULL_HANDLE};
 
-	const uint32_t set_index;
+	const uint32_t m_setIndex;
 
-	std::vector<VkDescriptorSetLayoutBinding> bindings;
+	std::vector<VkDescriptorSetLayoutBinding> m_bindings;
 
-	std::vector<VkDescriptorBindingFlagsEXT> binding_flags;
+	std::vector<VkDescriptorBindingFlagsEXT> m_bindingFlags;
 
-	std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings_lookup;
+	std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> m_bindingsLookup;
 
-	std::unordered_map<uint32_t, VkDescriptorBindingFlagsEXT> binding_flags_lookup;
+	std::unordered_map<uint32_t, VkDescriptorBindingFlagsEXT> m_bindingFlagsLookup;
 
-	std::unordered_map<std::string, uint32_t> resources_lookup;
+	std::unordered_map<std::string, uint32_t> m_resourcesLookup;
 
-	std::vector<ShaderModule *> shader_modules;
+	std::vector<ShaderModule*> m_shaderModules;
 };
 }        // namespace vkb

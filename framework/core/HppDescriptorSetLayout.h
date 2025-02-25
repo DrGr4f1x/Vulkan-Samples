@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "core/descriptor_set_layout.h"
+#include "core/DescriptorSetLayout.h"
 #include <vulkan/vulkan.hpp>
 
 namespace vkb
@@ -49,18 +49,18 @@ class HPPDescriptorSetLayout : private vkb::DescriptorSetLayout
 	                             reinterpret_cast<std::vector<vkb::ShaderResource> const &>(resource_set))
 	{}
 
-	vk::DescriptorSetLayout get_handle() const
+	vk::DescriptorSetLayout GetHandle() const
 	{
 		return static_cast<vk::DescriptorSetLayout>(vkb::DescriptorSetLayout::GetHandle());
 	}
 
-	std::unique_ptr<vk::DescriptorSetLayoutBinding> get_layout_binding(const uint32_t binding_index) const
+	std::unique_ptr<vk::DescriptorSetLayoutBinding> GetLayoutBinding(const uint32_t binding_index) const
 	{
 		return std::unique_ptr<vk::DescriptorSetLayoutBinding>(
 		    reinterpret_cast<vk::DescriptorSetLayoutBinding *>(vkb::DescriptorSetLayout::GetLayoutBinding(binding_index).release()));
 	}
 
-	vk::DescriptorBindingFlagsEXT get_layout_binding_flag(const uint32_t binding_index) const
+	vk::DescriptorBindingFlagsEXT GetLayoutBindingFlag(const uint32_t binding_index) const
 	{
 		return static_cast<vk::DescriptorBindingFlagsEXT>(vkb::DescriptorSetLayout::GetLayoutBindingFlag(binding_index));
 	}

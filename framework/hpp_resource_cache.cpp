@@ -167,7 +167,7 @@ void HPPResourceCache::update_descriptor_sets(const std::vector<vkb::core::HPPIm
 						image_info.imageView = new_view.get_handle();
 
 						// Save struct for writing the update later
-						if (auto binding_info = descriptor_set.GetLayout().get_layout_binding(binding))
+						if (auto binding_info = descriptor_set.GetLayout().GetLayoutBinding(binding))
 						{
 							vk::WriteDescriptorSet write_descriptor_set(descriptor_set.GetHandle(), binding, array_element, binding_info->descriptorType, image_info);
 							set_updates.push_back(write_descriptor_set);

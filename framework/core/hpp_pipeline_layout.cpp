@@ -89,7 +89,7 @@ HPPPipelineLayout::HPPPipelineLayout(vkb::core::HPPDevice &device, const std::ve
 	std::vector<vk::DescriptorSetLayout> descriptor_set_layout_handles;
 	for (auto descriptor_set_layout : descriptor_set_layouts)
 	{
-		descriptor_set_layout_handles.push_back(descriptor_set_layout ? descriptor_set_layout->get_handle() : nullptr);
+		descriptor_set_layout_handles.push_back(descriptor_set_layout ? descriptor_set_layout->GetHandle() : nullptr);
 	}
 
 	// Collect all the push constant shader resources

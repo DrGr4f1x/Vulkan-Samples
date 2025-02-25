@@ -17,7 +17,7 @@
 
 #include "pipeline_layout.h"
 
-#include "descriptor_set_layout.h"
+#include "DescriptorSetLayout.h"
 #include "device.h"
 #include "pipeline.h"
 #include "shader_module.h"

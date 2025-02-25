@@ -19,7 +19,7 @@
 
 #include "core/DescriptorPool.h"
 #include "core/DescriptorSet.h"
-#include "core/descriptor_set_layout.h"
+#include "core/DescriptorSetLayout.h"
 #include "core/framebuffer.h"
 #include "core/pipeline.h"
 #include "rendering/pipeline_state.h"

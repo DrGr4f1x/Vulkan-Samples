@@ -106,7 +106,7 @@ std::vector<uint32_t> HPPRenderFrame::collect_bindings_to_update(const vkb::core
 	auto aggregate_binding_to_update = [&bindings_to_update, &descriptor_set_layout](const auto &infos_map) {
 		for (const auto &[binding_index, ignored] : infos_map)
 		{
-			if (!(descriptor_set_layout.get_layout_binding_flag(binding_index) & vk::DescriptorBindingFlagBits::eUpdateAfterBind))
+			if (!(descriptor_set_layout.GetLayoutBindingFlag(binding_index) & vk::DescriptorBindingFlagBits::eUpdateAfterBind))
 			{
 				bindings_to_update.insert(binding_index);
 			}

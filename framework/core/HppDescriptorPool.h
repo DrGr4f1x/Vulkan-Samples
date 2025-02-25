@@ -18,7 +18,7 @@
 #pragma once
 
 #include "DescriptorPool.h"
-#include <core/hpp_descriptor_set_layout.h>
+#include <core/HppDescriptorSetLayout.h>
 
 namespace vkb
 {

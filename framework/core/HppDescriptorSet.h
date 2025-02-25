@@ -19,7 +19,7 @@
 
 #include "DescriptorSet.h"
 #include <core/HppDescriptorPool.h>
-#include <core/hpp_descriptor_set_layout.h>
+#include <core/HppDescriptorSetLayout.h>
 
 namespace vkb
 {

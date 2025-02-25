@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "descriptor_set_layout.h"
+#include "DescriptorSetLayout.h"
 
 #include "device.h"
 #include "physical_device.h"
@@ -23,11 +23,13 @@
 
 namespace vkb
 {
+
 namespace
 {
-inline VkDescriptorType FindDescriptorType(ShaderResourceType resource_type, bool dynamic)
+
+inline VkDescriptorType FindDescriptorType(ShaderResourceType resourceType, bool isDynamic)
 {
-	switch (resource_type)
+	switch (resourceType)
 	{
 		case ShaderResourceType::InputAttachment:
 			return VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
@@ -45,7 +47,7 @@ inline VkDescriptorType FindDescriptorType(ShaderResourceType resource_type, boo
 			return VK_DESCRIPTOR_TYPE_SAMPLER;
 			break;
 		case ShaderResourceType::BufferUniform:
-			if (dynamic)
+			if (isDynamic)
 			{
 				return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 			}
@@ -55,7 +57,7 @@ inline VkDescriptorType FindDescriptorType(ShaderResourceType resource_type, boo
 			}
 			break;
 		case ShaderResourceType::BufferStorage:
-			if (dynamic)
+			if (isDynamic)
 			{
 				return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
 			}
@@ -68,14 +70,16 @@ inline VkDescriptorType FindDescriptorType(ShaderResourceType resource_type, boo
 			throw std::runtime_error("No conversion possible for the shader resource type.");
 			break;
 	}
-}
+} 
 
-inline bool ValidateBinding(const VkDescriptorSetLayoutBinding &binding, const std::vector<VkDescriptorType> &blacklist)
+
+inline bool ValidateBinding(const VkDescriptorSetLayoutBinding& binding, const std::vector<VkDescriptorType>& blacklist)
 {
-	return !(std::find_if(blacklist.begin(), blacklist.end(), [binding](const VkDescriptorType &type) { return type == binding.descriptorType; }) != blacklist.end());
+	return !(std::find_if(blacklist.begin(), blacklist.end(), [binding](const VkDescriptorType& type) { return type == binding.descriptorType; }) != blacklist.end());
 }
 
-inline bool ValidateFlags(const PhysicalDevice &gpu, const std::vector<VkDescriptorSetLayoutBinding> &bindings, const std::vector<VkDescriptorBindingFlagsEXT> &flags)
+
+inline bool ValidateFlags(const PhysicalDevice& gpu, const std::vector<VkDescriptorSetLayoutBinding>& bindings, const std::vector<VkDescriptorBindingFlagsEXT>& flags)
 {
 	// Assume bindings are valid if there are no flags
 	if (flags.empty())
@@ -92,21 +96,20 @@ inline bool ValidateFlags(const PhysicalDevice &gpu, const std::vector<VkDescrip
 
 	return true;
 }
-}        // namespace
 
-DescriptorSetLayout::DescriptorSetLayout(Device &                           device,
-                                         const uint32_t                     set_index,
-                                         const std::vector<ShaderModule *> &shader_modules,
-                                         const std::vector<ShaderResource> &resource_set) :
-    device{device},
-    set_index{set_index},
-    shader_modules{shader_modules}
+} // anonymous namespace
+
+
+DescriptorSetLayout::DescriptorSetLayout(Device& device, const uint32_t setIndex, const std::vector<ShaderModule*>& shaderModules, const std::vector<ShaderResource>& resourceSet) 
+	: m_device{ device }
+	, m_setIndex{ setIndex }
+	, m_shaderModules{ shaderModules }
 {
 	// NOTE: `shader_modules` is passed in mainly for hashing their handles in `request_resource`.
 	//        This way, different pipelines (with different shaders / shader variants) will get
 	//        different descriptor set layouts (incl. appropriate name -> binding lookups)
 
-	for (auto &resource : resource_set)
+	for (auto& resource : resourceSet)
 	{
 		// Skip shader resources whitout a binding point
 		if (resource.type == ShaderResourceType::Input ||
@@ -122,14 +125,14 @@ DescriptorSetLayout::DescriptorSetLayout(Device &                           devi
 
 		if (resource.mode == ShaderResourceMode::UpdateAfterBind)
 		{
-			binding_flags.push_back(VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT);
+			m_bindingFlags.push_back(VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT);
 		}
 		else
 		{
 			// When creating a descriptor set layout, if we give a structure to create_info.pNext, each binding needs to have a binding flag
 			// (pBindings[i] uses the flags in pBindingFlags[i])
 			// Adding 0 ensures the bindings that don't use any flags are mapped correctly.
-			binding_flags.push_back(0);
+			m_bindingFlags.push_back(0);
 		}
 
 		// Convert ShaderResource to VkDescriptorSetLayoutBinding
@@ -140,47 +143,47 @@ DescriptorSetLayout::DescriptorSetLayout(Device &                           devi
 		layout_binding.descriptorType  = descriptor_type;
 		layout_binding.stageFlags      = static_cast<VkShaderStageFlags>(resource.stages);
 
-		bindings.push_back(layout_binding);
+		m_bindings.push_back(layout_binding);
 
 		// Store mapping between binding and the binding point
-		bindings_lookup.emplace(resource.binding, layout_binding);
+		m_bindingsLookup.emplace(resource.binding, layout_binding);
 
-		binding_flags_lookup.emplace(resource.binding, binding_flags.back());
+		m_bindingFlagsLookup.emplace(resource.binding, m_bindingFlags.back());
 
-		resources_lookup.emplace(resource.name, resource.binding);
+		m_resourcesLookup.emplace(resource.name, resource.binding);
 	}
 
 	VkDescriptorSetLayoutCreateInfo create_info{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO};
 	create_info.flags        = 0;
-	create_info.bindingCount = to_u32(bindings.size());
-	create_info.pBindings    = bindings.data();
+	create_info.bindingCount = to_u32(m_bindings.size());
+	create_info.pBindings    = m_bindings.data();
 
 	// Handle update-after-bind extensions
 	VkDescriptorSetLayoutBindingFlagsCreateInfoEXT binding_flags_create_info{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO_EXT};
-	if (std::find_if(resource_set.begin(), resource_set.end(),
-	                 [](const ShaderResource &shader_resource) { return shader_resource.mode == ShaderResourceMode::UpdateAfterBind; }) != resource_set.end())
+	if (std::find_if(resourceSet.begin(), resourceSet.end(),
+	                 [](const ShaderResource& shaderResource) { return shaderResource.mode == ShaderResourceMode::UpdateAfterBind; }) != resourceSet.end())
 	{
 		// Spec states you can't have ANY dynamic resources if you have one of the bindings set to update-after-bind
-		if (std::find_if(resource_set.begin(), resource_set.end(),
-		                 [](const ShaderResource &shader_resource) { return shader_resource.mode == ShaderResourceMode::Dynamic; }) != resource_set.end())
+		if (std::find_if(resourceSet.begin(), resourceSet.end(),
+		                 [](const ShaderResource& shaderResource) { return shaderResource.mode == ShaderResourceMode::Dynamic; }) != resourceSet.end())
 		{
 			throw std::runtime_error("Cannot create descriptor set layout, dynamic resources are not allowed if at least one resource is update-after-bind.");
 		}
 
-		if (!ValidateFlags(device.get_gpu(), bindings, binding_flags))
+		if (!ValidateFlags(device.get_gpu(), m_bindings, m_bindingFlags))
 		{
 			throw std::runtime_error("Invalid binding, couldn't create descriptor set layout.");
 		}
 
-		binding_flags_create_info.bindingCount  = to_u32(binding_flags.size());
-		binding_flags_create_info.pBindingFlags = binding_flags.data();
+		binding_flags_create_info.bindingCount  = to_u32(m_bindingFlags.size());
+		binding_flags_create_info.pBindingFlags = m_bindingFlags.data();
 
 		create_info.pNext = &binding_flags_create_info;
-		create_info.flags |= std::find(binding_flags.begin(), binding_flags.end(), VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT) != binding_flags.end() ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_UPDATE_AFTER_BIND_POOL_BIT_EXT : 0;
+		create_info.flags |= std::find(m_bindingFlags.begin(), m_bindingFlags.end(), VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT) != m_bindingFlags.end() ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_UPDATE_AFTER_BIND_POOL_BIT_EXT : 0;
 	}
 
 	// Create the Vulkan descriptor set layout handle
-	VkResult result = vkCreateDescriptorSetLayout(device.get_handle(), &create_info, nullptr, &handle);
+	VkResult result = vkCreateDescriptorSetLayout(device.get_handle(), &create_info, nullptr, &m_handle);
 
 	if (result != VK_SUCCESS)
 	{
@@ -188,54 +191,60 @@ DescriptorSetLayout::DescriptorSetLayout(Device &                           devi
 	}
 }
 
-DescriptorSetLayout::DescriptorSetLayout(DescriptorSetLayout &&other) :
-    device{other.device},
-    shader_modules{other.shader_modules},
-    handle{other.handle},
-    set_index{other.set_index},
-    bindings{std::move(other.bindings)},
-    binding_flags{std::move(other.binding_flags)},
-    bindings_lookup{std::move(other.bindings_lookup)},
-    binding_flags_lookup{std::move(other.binding_flags_lookup)},
-    resources_lookup{std::move(other.resources_lookup)}
+
+DescriptorSetLayout::DescriptorSetLayout(DescriptorSetLayout&& other) 
+	: m_device{ other.m_device }
+	, m_shaderModules{ other.m_shaderModules }
+	, m_handle{ other.m_handle }
+	, m_setIndex{ other.m_setIndex}
+	, m_bindings{ std::move(other.m_bindings) }
+	, m_bindingFlags{ std::move(other.m_bindingFlags) }
+	, m_bindingsLookup{ std::move(other.m_bindingsLookup) }
+	, m_bindingFlagsLookup{ std::move(other.m_bindingFlagsLookup) }
+	, m_resourcesLookup{ std::move(other.m_resourcesLookup) }
 {
-	other.handle = VK_NULL_HANDLE;
+	other.m_handle = VK_NULL_HANDLE;
 }
+
 
 DescriptorSetLayout::~DescriptorSetLayout()
 {
 	// Destroy descriptor set layout
-	if (handle != VK_NULL_HANDLE)
+	if (m_handle != VK_NULL_HANDLE)
 	{
-		vkDestroyDescriptorSetLayout(device.get_handle(), handle, nullptr);
+		vkDestroyDescriptorSetLayout(m_device.get_handle(), m_handle, nullptr);
 	}
 }
 
 VkDescriptorSetLayout DescriptorSetLayout::GetHandle() const
 {
-	return handle;
+	return m_handle;
 }
+
 
 const uint32_t DescriptorSetLayout::GetIndex() const
 {
-	return set_index;
+	return m_setIndex;
 }
+
 
 const std::vector<VkDescriptorSetLayoutBinding> &DescriptorSetLayout::GetBindings() const
 {
-	return bindings;
+	return m_bindings;
 }
+
 
 const std::vector<VkDescriptorBindingFlagsEXT> &DescriptorSetLayout::GetBindingFlags() const
 {
-	return binding_flags;
+	return m_bindingFlags;
 }
 
-std::unique_ptr<VkDescriptorSetLayoutBinding> DescriptorSetLayout::GetLayoutBinding(uint32_t binding_index) const
-{
-	auto it = bindings_lookup.find(binding_index);
 
-	if (it == bindings_lookup.end())
+std::unique_ptr<VkDescriptorSetLayoutBinding> DescriptorSetLayout::GetLayoutBinding(uint32_t bindingIndex) const
+{
+	auto it = m_bindingsLookup.find(bindingIndex);
+
+	if (it == m_bindingsLookup.end())
 	{
 		return nullptr;
 	}
@@ -243,11 +252,12 @@ std::unique_ptr<VkDescriptorSetLayoutBinding> DescriptorSetLayout::GetLayoutBind
 	return std::make_unique<VkDescriptorSetLayoutBinding>(it->second);
 }
 
-std::unique_ptr<VkDescriptorSetLayoutBinding> DescriptorSetLayout::GetLayoutBinding(const std::string &name) const
-{
-	auto it = resources_lookup.find(name);
 
-	if (it == resources_lookup.end())
+std::unique_ptr<VkDescriptorSetLayoutBinding> DescriptorSetLayout::GetLayoutBinding(const std::string& name) const
+{
+	auto it = m_resourcesLookup.find(name);
+
+	if (it == m_resourcesLookup.end())
 	{
 		return nullptr;
 	}
@@ -255,11 +265,12 @@ std::unique_ptr<VkDescriptorSetLayoutBinding> DescriptorSetLayout::GetLayoutBind
 	return GetLayoutBinding(it->second);
 }
 
-VkDescriptorBindingFlagsEXT DescriptorSetLayout::GetLayoutBindingFlag(const uint32_t binding_index) const
-{
-	auto it = binding_flags_lookup.find(binding_index);
 
-	if (it == binding_flags_lookup.end())
+VkDescriptorBindingFlagsEXT DescriptorSetLayout::GetLayoutBindingFlag(const uint32_t bindingIndex) const
+{
+	auto it = m_bindingFlagsLookup.find(bindingIndex);
+
+	if (it == m_bindingFlagsLookup.end())
 	{
 		return 0;
 	}
@@ -267,9 +278,10 @@ VkDescriptorBindingFlagsEXT DescriptorSetLayout::GetLayoutBindingFlag(const uint
 	return it->second;
 }
 
-const std::vector<ShaderModule *> &DescriptorSetLayout::GetShaderModules() const
+
+const std::vector<ShaderModule*>& DescriptorSetLayout::GetShaderModules() const
 {
-	return shader_modules;
+	return m_shaderModules;
 }
 
 }        // namespace vkb
