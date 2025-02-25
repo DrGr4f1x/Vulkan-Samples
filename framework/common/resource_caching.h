@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "core/descriptor_pool.h"
-#include "core/descriptor_set.h"
+#include "core/DescriptorPool.h"
+#include "core/DescriptorSet.h"
 #include "core/descriptor_set_layout.h"
 #include "core/framebuffer.h"
 #include "core/pipeline.h"
@@ -76,7 +76,7 @@ struct hash<vkb::DescriptorSetLayout>
 	{
 		std::size_t result = 0;
 
-		vkb::hash_combine(result, descriptor_set_layout.get_handle());
+		vkb::hash_combine(result, descriptor_set_layout.GetHandle());
 
 		return result;
 	}
@@ -89,7 +89,7 @@ struct hash<vkb::DescriptorPool>
 	{
 		std::size_t result = 0;
 
-		vkb::hash_combine(result, descriptor_pool.get_descriptor_set_layout());
+		vkb::hash_combine(result, descriptor_pool.GetDescriptorSetLayout());
 
 		return result;
 	}

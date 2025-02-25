@@ -22,8 +22,8 @@
 #include <vector>
 
 #include "common/helpers.h"
-#include "core/descriptor_pool.h"
-#include "core/descriptor_set.h"
+#include "core/DescriptorPool.h"
+#include "core/DescriptorSet.h"
 #include "core/descriptor_set_layout.h"
 #include "core/framebuffer.h"
 #include "core/pipeline.h"

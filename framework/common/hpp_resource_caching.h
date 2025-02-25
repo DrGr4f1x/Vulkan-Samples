@@ -90,11 +90,11 @@ struct hash<vkb::core::HPPDescriptorSet>
 	size_t operator()(vkb::core::HPPDescriptorSet &descriptor_set) const
 	{
 		size_t result = 0;
-		vkb::hash_combine(result, descriptor_set.get_layout());
+		vkb::hash_combine(result, descriptor_set.GetLayout());
 		// descriptor_pool ?
-		vkb::hash_combine(result, descriptor_set.get_buffer_infos());
-		vkb::hash_combine(result, descriptor_set.get_image_infos());
-		vkb::hash_combine(result, descriptor_set.get_handle());
+		vkb::hash_combine(result, descriptor_set.GetBufferInfos());
+		vkb::hash_combine(result, descriptor_set.GetImageInfos());
+		vkb::hash_combine(result, descriptor_set.GetHandle());
 		// write_descriptor_sets ?
 
 		return result;

@@ -44,22 +44,22 @@ class DescriptorSet
 	 * @param buffer_infos The descriptors that describe buffer data
 	 * @param image_infos The descriptors that describe image data
 	 */
-	DescriptorSet(Device &                                  device,
-	              const DescriptorSetLayout &               descriptor_set_layout,
-	              DescriptorPool &                          descriptor_pool,
-	              const BindingMap<VkDescriptorBufferInfo> &buffer_infos = {},
-	              const BindingMap<VkDescriptorImageInfo> & image_infos  = {});
+	DescriptorSet(Device& device,
+	              const DescriptorSetLayout& descriptorSetLayout,
+	              DescriptorPool& descriptorPool,
+	              const BindingMap<VkDescriptorBufferInfo>& bufferInfos = {},
+	              const BindingMap<VkDescriptorImageInfo>& imageInfos  = {});
 
-	DescriptorSet(const DescriptorSet &) = delete;
+	DescriptorSet(const DescriptorSet&) = delete;
 
-	DescriptorSet(DescriptorSet &&other);
+	DescriptorSet(DescriptorSet&& other);
 
 	// The descriptor set handle is managed by the pool, and will be destroyed when the pool is reset
 	~DescriptorSet() = default;
 
-	DescriptorSet &operator=(const DescriptorSet &) = delete;
+	DescriptorSet& operator=(const DescriptorSet&) = delete;
 
-	DescriptorSet &operator=(DescriptorSet &&) = delete;
+	DescriptorSet& operator=(DescriptorSet&&) = delete;
 
 	/**
 	 * @brief Resets the DescriptorSet state
@@ -67,53 +67,53 @@ class DescriptorSet
 	 * @param new_buffer_infos A map of buffer descriptors and their respective bindings
 	 * @param new_image_infos A map of image descriptors and their respective bindings
 	 */
-	void reset(const BindingMap<VkDescriptorBufferInfo> &new_buffer_infos = {},
-	           const BindingMap<VkDescriptorImageInfo> & new_image_infos  = {});
+	void Reset(const BindingMap<VkDescriptorBufferInfo>& newBufferInfos = {},
+	           const BindingMap<VkDescriptorImageInfo> & newImageInfos  = {});
 
 	/**
 	 * @brief Updates the contents of the DescriptorSet by performing the write operations
 	 * @param bindings_to_update If empty. we update all bindings. Otherwise, only write the specified bindings if they haven't already been written
 	 */
-	void update(const std::vector<uint32_t> &bindings_to_update = {});
+	void Update(const std::vector<uint32_t>& bindingsToUpdate = {});
 
 	/**
 	 * @brief Applies pending write operations without updating the state
 	 */
-	void apply_writes() const;
+	void ApplyWrites() const;
 
-	const DescriptorSetLayout &get_layout() const;
+	const DescriptorSetLayout& GetLayout() const;
 
-	VkDescriptorSet get_handle() const;
+	VkDescriptorSet GetHandle() const;
 
-	BindingMap<VkDescriptorBufferInfo> &get_buffer_infos();
+	BindingMap<VkDescriptorBufferInfo>& GetBufferInfos();
 
-	BindingMap<VkDescriptorImageInfo> &get_image_infos();
+	BindingMap<VkDescriptorImageInfo>& GetImageInfos();
 
   protected:
 	/**
 	 * @brief Prepares the descriptor set to have its contents updated by loading a vector of write operations
 	 *        Cannot be called twice during the lifetime of a DescriptorSet
 	 */
-	void prepare();
+	void Prepare();
 
   private:
-	Device &device;
+	Device& m_device;
 
-	const DescriptorSetLayout &descriptor_set_layout;
+	const DescriptorSetLayout& m_descriptorSetLayout;
 
-	DescriptorPool &descriptor_pool;
+	DescriptorPool& m_descriptorPool;
 
-	BindingMap<VkDescriptorBufferInfo> buffer_infos;
+	BindingMap<VkDescriptorBufferInfo> m_bufferInfos;
 
-	BindingMap<VkDescriptorImageInfo> image_infos;
+	BindingMap<VkDescriptorImageInfo> m_imageInfos;
 
-	VkDescriptorSet handle{VK_NULL_HANDLE};
+	VkDescriptorSet m_handle{ VK_NULL_HANDLE };
 
 	// The list of write operations for the descriptor set
-	std::vector<VkWriteDescriptorSet> write_descriptor_sets;
+	std::vector<VkWriteDescriptorSet> m_writeDescriptorSets;
 
 	// The bindings of the write descriptors that have had vkUpdateDescriptorSets since the last call to update().
 	// Each binding number is mapped to a hash of the binding description that it will be updated to.
-	std::unordered_map<uint32_t, size_t> updated_bindings;
+	std::unordered_map<uint32_t, size_t> m_updatedBindings;
 };
 }        // namespace vkb

@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <core/hpp_descriptor_set.h>
+#include <core/HppDescriptorSet.h>
 #include <core/hpp_framebuffer.h>
 #include <core/hpp_pipeline_layout.h>
 #include <core/hpp_render_pass.h>

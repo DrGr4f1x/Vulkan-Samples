@@ -57,21 +57,21 @@ class DescriptorSetLayout
 
 	DescriptorSetLayout &operator=(DescriptorSetLayout &&) = delete;
 
-	VkDescriptorSetLayout get_handle() const;
+	VkDescriptorSetLayout GetHandle() const;
 
-	const uint32_t get_index() const;
+	const uint32_t GetIndex() const;
 
-	const std::vector<VkDescriptorSetLayoutBinding> &get_bindings() const;
+	const std::vector<VkDescriptorSetLayoutBinding>& GetBindings() const;
 
-	std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const uint32_t binding_index) const;
+	std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const uint32_t binding_index) const;
 
-	std::unique_ptr<VkDescriptorSetLayoutBinding> get_layout_binding(const std::string &name) const;
+	std::unique_ptr<VkDescriptorSetLayoutBinding> GetLayoutBinding(const std::string &name) const;
 
-	const std::vector<VkDescriptorBindingFlagsEXT> &get_binding_flags() const;
+	const std::vector<VkDescriptorBindingFlagsEXT>& GetBindingFlags() const;
 
-	VkDescriptorBindingFlagsEXT get_layout_binding_flag(const uint32_t binding_index) const;
+	VkDescriptorBindingFlagsEXT GetLayoutBindingFlag(const uint32_t binding_index) const;
 
-	const std::vector<ShaderModule *> &get_shader_modules() const;
+	const std::vector<ShaderModule *>& GetShaderModules() const;
 
   private:
 	Device &device;

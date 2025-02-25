@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "descriptor_set.h"
-#include <core/hpp_descriptor_pool.h>
+#include "DescriptorSet.h"
+#include <core/HppDescriptorPool.h>
 #include <core/hpp_descriptor_set_layout.h>
 
 namespace vkb
@@ -33,8 +33,8 @@ namespace core
 class HPPDescriptorSet : private vkb::DescriptorSet
 {
   public:
-	using vkb::DescriptorSet::apply_writes;
-	using vkb::DescriptorSet::update;
+	using vkb::DescriptorSet::ApplyWrites;
+	using vkb::DescriptorSet::Update;
 
 	HPPDescriptorSet(vkb::core::HPPDevice                       &device,
 	                 const vkb::core::HPPDescriptorSetLayout    &descriptor_set_layout,
@@ -48,24 +48,24 @@ class HPPDescriptorSet : private vkb::DescriptorSet
 	                       reinterpret_cast<BindingMap<VkDescriptorImageInfo> const &>(image_infos))
 	{}
 
-	BindingMap<vk::DescriptorBufferInfo> &get_buffer_infos()
+	BindingMap<vk::DescriptorBufferInfo>& GetBufferInfos()
 	{
-		return reinterpret_cast<BindingMap<vk::DescriptorBufferInfo> &>(vkb::DescriptorSet::get_buffer_infos());
+		return reinterpret_cast<BindingMap<vk::DescriptorBufferInfo> &>(vkb::DescriptorSet::GetBufferInfos());
 	}
 
-	vk::DescriptorSet get_handle() const
+	vk::DescriptorSet GetHandle() const
 	{
-		return static_cast<vk::DescriptorSet>(vkb::DescriptorSet::get_handle());
+		return static_cast<vk::DescriptorSet>(vkb::DescriptorSet::GetHandle());
 	}
 
-	BindingMap<vk::DescriptorImageInfo> &get_image_infos()
+	BindingMap<vk::DescriptorImageInfo>& GetImageInfos()
 	{
-		return reinterpret_cast<BindingMap<vk::DescriptorImageInfo> &>(vkb::DescriptorSet::get_image_infos());
+		return reinterpret_cast<BindingMap<vk::DescriptorImageInfo> &>(vkb::DescriptorSet::GetImageInfos());
 	}
 
-	const vkb::core::HPPDescriptorSetLayout &get_layout() const
+	const vkb::core::HPPDescriptorSetLayout& GetLayout() const
 	{
-		return reinterpret_cast<vkb::core::HPPDescriptorSetLayout const &>(vkb::DescriptorSet::get_layout());
+		return reinterpret_cast<vkb::core::HPPDescriptorSetLayout const &>(vkb::DescriptorSet::GetLayout());
 	}
 };
 }        // namespace core

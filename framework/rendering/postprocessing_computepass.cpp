@@ -212,7 +212,7 @@ void PostProcessingComputePass::draw(CommandBuffer &command_buffer, RenderTarget
 	// Bind samplers to set = 0, binding = <according to name>
 	for (const auto &it : sampled_images)
 	{
-		if (auto layout_binding = bindings.get_layout_binding(it.first))
+		if (auto layout_binding = bindings.GetLayoutBinding(it.first))
 		{
 			const auto &view = it.second.get_image_view(default_render_target);
 
@@ -230,7 +230,7 @@ void PostProcessingComputePass::draw(CommandBuffer &command_buffer, RenderTarget
 	// Bind storage images to set = 0, binding = <according to name>
 	for (const auto &it : storage_images)
 	{
-		if (auto layout_binding = bindings.get_layout_binding(it.first))
+		if (auto layout_binding = bindings.GetLayoutBinding(it.first))
 		{
 			const auto &view = it.second.get_image_view(default_render_target);
 			command_buffer.bind_image(view, 0, layout_binding->binding, 0);

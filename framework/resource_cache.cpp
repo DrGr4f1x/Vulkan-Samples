@@ -123,7 +123,7 @@ void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &o
 			auto &key            = kd_pair.first;
 			auto &descriptor_set = kd_pair.second;
 
-			auto &image_infos = descriptor_set.get_image_infos();
+			auto &image_infos = descriptor_set.GetImageInfos();
 
 			for (auto &ba_pair : image_infos)
 			{
@@ -147,12 +147,12 @@ void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &o
 						{
 							VkWriteDescriptorSet write_descriptor_set{VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET};
 
-							if (auto binding_info = descriptor_set.get_layout().get_layout_binding(binding))
+							if (auto binding_info = descriptor_set.GetLayout().GetLayoutBinding(binding))
 							{
 								write_descriptor_set.dstBinding      = binding;
 								write_descriptor_set.descriptorType  = binding_info->descriptorType;
 								write_descriptor_set.pImageInfo      = &image_info;
-								write_descriptor_set.dstSet          = descriptor_set.get_handle();
+								write_descriptor_set.dstSet          = descriptor_set.GetHandle();
 								write_descriptor_set.dstArrayElement = array_element;
 								write_descriptor_set.descriptorCount = 1;
 
@@ -185,7 +185,7 @@ void ResourceCache::update_descriptor_sets(const std::vector<core::ImageView> &o
 
 		// Generate new key
 		size_t new_key = 0U;
-		hash_param(new_key, descriptor_set.get_layout(), descriptor_set.get_buffer_infos(), descriptor_set.get_image_infos());
+		hash_param(new_key, descriptor_set.GetLayout(), descriptor_set.GetBufferInfos(), descriptor_set.GetImageInfos());
 
 		// Add (key, resource) to the cache
 		state.descriptor_sets.emplace(new_key, std::move(descriptor_set));

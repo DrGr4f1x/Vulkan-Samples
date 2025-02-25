@@ -23,7 +23,7 @@
 #include "core/command_buffer.h"
 #include "core/command_pool.h"
 #include "core/debug.h"
-#include "core/descriptor_set.h"
+#include "core/DescriptorSet.h"
 #include "core/descriptor_set_layout.h"
 #include "core/framebuffer.h"
 #include "core/instance.h"

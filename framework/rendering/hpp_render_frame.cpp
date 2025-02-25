@@ -92,7 +92,7 @@ void HPPRenderFrame::clear_descriptors()
 	{
 		for (auto &desc_pool : *desc_pools_per_thread)
 		{
-			desc_pool.second.reset();
+			desc_pool.second.Reset();
 		}
 	}
 }
@@ -226,15 +226,15 @@ vk::DescriptorSet HPPRenderFrame::request_descriptor_set(const vkb::core::HPPDes
 		assert(thread_index < descriptor_sets.size());
 		auto &descriptor_set =
 		    vkb::common::request_resource(device, nullptr, *descriptor_sets[thread_index], descriptor_set_layout, descriptor_pool, buffer_infos, image_infos);
-		descriptor_set.update(bindings_to_update);
-		return descriptor_set.get_handle();
+		descriptor_set.Update(bindings_to_update);
+		return descriptor_set.GetHandle();
 	}
 	else
 	{
 		// Request a descriptor pool, allocate a descriptor set, write buffer and image data to it
 		vkb::core::HPPDescriptorSet descriptor_set{device, descriptor_set_layout, descriptor_pool, buffer_infos, image_infos};
-		descriptor_set.apply_writes();
-		return descriptor_set.get_handle();
+		descriptor_set.ApplyWrites();
+		return descriptor_set.GetHandle();
 	}
 }
 
@@ -300,7 +300,7 @@ void HPPRenderFrame::update_descriptor_sets(size_t thread_index)
 	auto &thread_descriptor_sets = *descriptor_sets[thread_index];
 	for (auto &descriptor_set_it : thread_descriptor_sets)
 	{
-		descriptor_set_it.second.update();
+		descriptor_set_it.second.Update();
 	}
 }
 

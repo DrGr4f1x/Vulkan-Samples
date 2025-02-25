@@ -190,7 +190,7 @@ void GeometrySubpass::draw_submesh(CommandBuffer &command_buffer, sg::SubMesh &s
 
 	for (auto &texture : sub_mesh.get_material()->textures)
 	{
-		if (auto layout_binding = descriptor_set_layout.get_layout_binding(texture.first))
+		if (auto layout_binding = descriptor_set_layout.GetLayoutBinding(texture.first))
 		{
 			command_buffer.bind_image(texture.second->get_image()->get_vk_image_view(),
 			                          texture.second->get_sampler()->vk_sampler,

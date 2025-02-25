@@ -17,7 +17,7 @@
 
 #include "hpp_resource_cache.h"
 #include <common/hpp_resource_caching.h>
-#include <core/hpp_descriptor_set.h>
+#include <core/HppDescriptorSet.h>
 #include <core/hpp_device.h>
 #include <core/hpp_image_view.h>
 #include <core/hpp_pipeline_layout.h>
@@ -146,7 +146,7 @@ void HPPResourceCache::update_descriptor_sets(const std::vector<vkb::core::HPPIm
 			auto &key            = kd_pair.first;
 			auto &descriptor_set = kd_pair.second;
 
-			auto &image_infos = descriptor_set.get_image_infos();
+			auto &image_infos = descriptor_set.GetImageInfos();
 
 			for (auto &ba_pair : image_infos)
 			{
@@ -167,9 +167,9 @@ void HPPResourceCache::update_descriptor_sets(const std::vector<vkb::core::HPPIm
 						image_info.imageView = new_view.get_handle();
 
 						// Save struct for writing the update later
-						if (auto binding_info = descriptor_set.get_layout().get_layout_binding(binding))
+						if (auto binding_info = descriptor_set.GetLayout().get_layout_binding(binding))
 						{
-							vk::WriteDescriptorSet write_descriptor_set(descriptor_set.get_handle(), binding, array_element, binding_info->descriptorType, image_info);
+							vk::WriteDescriptorSet write_descriptor_set(descriptor_set.GetHandle(), binding, array_element, binding_info->descriptorType, image_info);
 							set_updates.push_back(write_descriptor_set);
 						}
 						else

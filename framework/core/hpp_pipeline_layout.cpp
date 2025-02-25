@@ -129,7 +129,7 @@ vkb::core::HPPDescriptorSetLayout const &HPPPipelineLayout::get_descriptor_set_l
 {
 	auto it = std::find_if(descriptor_set_layouts.begin(),
 	                       descriptor_set_layouts.end(),
-	                       [&set_index](auto const *descriptor_set_layout) { return descriptor_set_layout->get_index() == set_index; });
+	                       [&set_index](auto const *descriptor_set_layout) { return descriptor_set_layout->GetIndex() == set_index; });
 	if (it == descriptor_set_layouts.end())
 	{
 		throw std::runtime_error("Couldn't find descriptor set layout at set index " + to_string(set_index));

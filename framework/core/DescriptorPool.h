@@ -35,54 +35,52 @@ class DescriptorPool
   public:
 	static const uint32_t MAX_SETS_PER_POOL = 16;
 
-	DescriptorPool(Device &                   device,
-	               const DescriptorSetLayout &descriptor_set_layout,
-	               uint32_t                   pool_size = MAX_SETS_PER_POOL);
+	DescriptorPool(Device& device, const DescriptorSetLayout& descriptorSetLayout, uint32_t poolSize = MAX_SETS_PER_POOL);
 
-	DescriptorPool(const DescriptorPool &) = delete;
+	DescriptorPool(const DescriptorPool&) = delete;
 
-	DescriptorPool(DescriptorPool &&) = default;
+	DescriptorPool(DescriptorPool&&) = default;
 
 	~DescriptorPool();
 
-	DescriptorPool &operator=(const DescriptorPool &) = delete;
+	DescriptorPool& operator=(const DescriptorPool&) = delete;
 
-	DescriptorPool &operator=(DescriptorPool &&) = delete;
+	DescriptorPool& operator=(DescriptorPool&&) = delete;
 
-	void reset();
+	void Reset();
 
-	const DescriptorSetLayout &get_descriptor_set_layout() const;
+	const DescriptorSetLayout& GetDescriptorSetLayout() const;
 
-	void set_descriptor_set_layout(const DescriptorSetLayout &set_layout);
+	void SetDescriptorSetLayout(const DescriptorSetLayout& setLayout);
 
-	VkDescriptorSet allocate();
+	VkDescriptorSet AllocateDescriptorSet();
 
-	VkResult free(VkDescriptorSet descriptor_set);
+	VkResult FreeDescriptorSet(VkDescriptorSet descriptorSet);
 
   private:
-	Device &device;
+	Device& m_device;
 
-	const DescriptorSetLayout *descriptor_set_layout{nullptr};
+	const DescriptorSetLayout* m_descriptorSetLayout{ nullptr };
 
 	// Descriptor pool size
-	std::vector<VkDescriptorPoolSize> pool_sizes;
+	std::vector<VkDescriptorPoolSize> m_poolSizes;
 
 	// Number of sets to allocate for each pool
-	uint32_t pool_max_sets{0};
+	uint32_t m_poolMaxSets{ 0 };
 
 	// Total descriptor pools created
-	std::vector<VkDescriptorPool> pools;
+	std::vector<VkDescriptorPool> m_pools;
 
 	// Count sets for each pool
-	std::vector<uint32_t> pool_sets_count;
+	std::vector<uint32_t> m_poolSetsCount;
 
 	// Current pool index to allocate descriptor set
-	uint32_t pool_index{0};
+	uint32_t m_poolIndex{ 0 };
 
 	// Map between descriptor set and pool index
-	std::unordered_map<VkDescriptorSet, uint32_t> set_pool_mapping;
+	std::unordered_map<VkDescriptorSet, uint32_t> m_setPoolMapping;
 
 	// Find next pool index or create new pool
-	uint32_t find_available_pool(uint32_t pool_index);
+	uint32_t FindAvailablePool(uint32_t poolIndex);
 };
 }        // namespace vkb

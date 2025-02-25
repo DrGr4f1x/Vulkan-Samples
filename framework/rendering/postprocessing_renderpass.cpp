@@ -153,7 +153,7 @@ void PostProcessingSubpass::draw(CommandBuffer &command_buffer)
 	// Bind subpass inputs to set = 0, binding = <according to name>
 	for (const auto &it : input_attachments)
 	{
-		if (auto layout_binding = bindings.get_layout_binding(it.first))
+		if (auto layout_binding = bindings.GetLayoutBinding(it.first))
 		{
 			assert(it.second < target_views.size());
 			command_buffer.bind_input(target_views[it.second], 0, layout_binding->binding, 0);
@@ -163,7 +163,7 @@ void PostProcessingSubpass::draw(CommandBuffer &command_buffer)
 	// Bind samplers to set = 0, binding = <according to name>
 	for (const auto &it : sampled_images)
 	{
-		if (auto layout_binding = bindings.get_layout_binding(it.first))
+		if (auto layout_binding = bindings.GetLayoutBinding(it.first))
 		{
 			const auto &view = it.second.get_image_view(render_target);
 
@@ -181,7 +181,7 @@ void PostProcessingSubpass::draw(CommandBuffer &command_buffer)
 	// Bind storage images to set = 0, binding = <according to name>
 	for (const auto &it : storage_images)
 	{
-		if (auto layout_binding = bindings.get_layout_binding(it.first))
+		if (auto layout_binding = bindings.GetLayoutBinding(it.first))
 		{
 			command_buffer.bind_image(*it.second, 0, layout_binding->binding, 0);
 		}

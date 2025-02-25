@@ -30,7 +30,7 @@
 #include "common/utils.h"
 #include "common/vk_common.h"
 #include "common/vk_initializers.h"
-#include "core/descriptor_set.h"
+#include "core/DescriptorSet.h"
 #include "core/descriptor_set_layout.h"
 #include "core/pipeline.h"
 #include "core/pipeline_layout.h"

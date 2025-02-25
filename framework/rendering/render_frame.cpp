@@ -140,7 +140,7 @@ std::vector<uint32_t> RenderFrame::collect_bindings_to_update(const DescriptorSe
 		for (const auto &pair : infos_map)
 		{
 			uint32_t binding_index = pair.first;
-			if (!(descriptor_set_layout.get_layout_binding_flag(binding_index) & VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT) &&
+			if (!(descriptor_set_layout.GetLayoutBindingFlag(binding_index) & VK_DESCRIPTOR_BINDING_UPDATE_AFTER_BIND_BIT_EXT) &&
 			    std::find(bindings_to_update.begin(), bindings_to_update.end(), binding_index) == bindings_to_update.end())
 			{
 				bindings_to_update.push_back(binding_index);
@@ -223,15 +223,15 @@ VkDescriptorSet RenderFrame::request_descriptor_set(const DescriptorSetLayout &d
 		// Request a descriptor set from the render frame, and write the buffer infos and image infos of all the specified bindings
 		assert(thread_index < descriptor_sets.size());
 		auto &descriptor_set = request_resource(device, nullptr, *descriptor_sets[thread_index], descriptor_set_layout, descriptor_pool, buffer_infos, image_infos);
-		descriptor_set.update(bindings_to_update);
-		return descriptor_set.get_handle();
+		descriptor_set.Update(bindings_to_update);
+		return descriptor_set.GetHandle();
 	}
 	else
 	{
 		// Request a descriptor pool, allocate a descriptor set, write buffer and image data to it
 		DescriptorSet descriptor_set{device, descriptor_set_layout, descriptor_pool, buffer_infos, image_infos};
-		descriptor_set.apply_writes();
-		return descriptor_set.get_handle();
+		descriptor_set.ApplyWrites();
+		return descriptor_set.GetHandle();
 	}
 }
 
@@ -241,7 +241,7 @@ void RenderFrame::update_descriptor_sets(size_t thread_index)
 	auto &thread_descriptor_sets = *descriptor_sets[thread_index];
 	for (auto &descriptor_set_it : thread_descriptor_sets)
 	{
-		descriptor_set_it.second.update();
+		descriptor_set_it.second.Update();
 	}
 }
 
@@ -256,7 +256,7 @@ void RenderFrame::clear_descriptors()
 	{
 		for (auto &desc_pool : *desc_pools_per_thread)
 		{
-			desc_pool.second.reset();
+			desc_pool.second.Reset();
 		}
 	}
 }

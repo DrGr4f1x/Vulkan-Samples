@@ -535,7 +535,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
 
 		if (descriptor_set_layout_it != descriptor_set_layout_binding_state.end())
 		{
-			if (descriptor_set_layout_it->second->get_handle() != pipeline_layout.get_descriptor_set_layout(descriptor_set_id).get_handle())
+			if (descriptor_set_layout_it->second->GetHandle() != pipeline_layout.get_descriptor_set_layout(descriptor_set_id).GetHandle())
 			{
 				update_descriptor_sets.emplace(descriptor_set_id);
 			}
@@ -598,7 +598,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
 				auto &binding_resources = binding_it.second;
 
 				// Check if binding exists in the pipeline layout
-				if (auto binding_info = descriptor_set_layout.get_layout_binding(binding_index))
+				if (auto binding_info = descriptor_set_layout.GetLayoutBinding(binding_index))
 				{
 					// Iterate over all binding resources
 					for (auto &element_it : binding_resources)

@@ -36,7 +36,7 @@ struct HPPShaderResource;
 class HPPDescriptorSetLayout : private vkb::DescriptorSetLayout
 {
   public:
-	using vkb::DescriptorSetLayout::get_index;
+	using vkb::DescriptorSetLayout::GetIndex;
 
   public:
 	HPPDescriptorSetLayout(vkb::core::HPPDevice                            &device,
@@ -51,18 +51,18 @@ class HPPDescriptorSetLayout : private vkb::DescriptorSetLayout
 
 	vk::DescriptorSetLayout get_handle() const
 	{
-		return static_cast<vk::DescriptorSetLayout>(vkb::DescriptorSetLayout::get_handle());
+		return static_cast<vk::DescriptorSetLayout>(vkb::DescriptorSetLayout::GetHandle());
 	}
 
 	std::unique_ptr<vk::DescriptorSetLayoutBinding> get_layout_binding(const uint32_t binding_index) const
 	{
 		return std::unique_ptr<vk::DescriptorSetLayoutBinding>(
-		    reinterpret_cast<vk::DescriptorSetLayoutBinding *>(vkb::DescriptorSetLayout::get_layout_binding(binding_index).release()));
+		    reinterpret_cast<vk::DescriptorSetLayoutBinding *>(vkb::DescriptorSetLayout::GetLayoutBinding(binding_index).release()));
 	}
 
 	vk::DescriptorBindingFlagsEXT get_layout_binding_flag(const uint32_t binding_index) const
 	{
-		return static_cast<vk::DescriptorBindingFlagsEXT>(vkb::DescriptorSetLayout::get_layout_binding_flag(binding_index));
+		return static_cast<vk::DescriptorBindingFlagsEXT>(vkb::DescriptorSetLayout::GetLayoutBindingFlag(binding_index));
 	}
 };
 }        // namespace core

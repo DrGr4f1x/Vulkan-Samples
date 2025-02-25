@@ -90,7 +90,7 @@ PipelineLayout::PipelineLayout(Device &device, const std::vector<ShaderModule *>
 	{
 		if (descriptor_set_layouts[i])
 		{
-			descriptor_set_layout_handles.push_back(descriptor_set_layouts[i]->get_handle());
+			descriptor_set_layout_handles.push_back(descriptor_set_layouts[i]->GetHandle());
 		}
 		else
 		{
@@ -185,7 +185,7 @@ DescriptorSetLayout &PipelineLayout::get_descriptor_set_layout(const uint32_t se
 {
 	for (auto &descriptor_set_layout : descriptor_set_layouts)
 	{
-		if (descriptor_set_layout->get_index() == set_index)
+		if (descriptor_set_layout->GetIndex() == set_index)
 		{
 			return *descriptor_set_layout;
 		}
