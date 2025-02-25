@@ -20,7 +20,7 @@
 #include "common/vk_common.h"
 #include "core/util/logging.hpp"
 #include "rendering/pipeline_state.h"
-#include "resource_cache.h"
+#include "ResourceCache.h"
 
 namespace vkb
 {
@@ -109,7 +109,7 @@ void ResourceReplay::create_shader_module(ResourceCache &resource_cache, std::is
 	shader_source.set_source(std::move(glsl_source));
 	ShaderVariant shader_variant(std::move(preamble), std::move(processes));
 
-	auto &shader_module = resource_cache.request_shader_module(stage, shader_source, shader_variant);
+	auto &shader_module = resource_cache.RequestShaderModule(stage, shader_source, shader_variant);
 
 	shader_modules.push_back(&shader_module);
 }
@@ -130,7 +130,7 @@ void ResourceReplay::create_pipeline_layout(ResourceCache &resource_cache, std::
 		               return shader_modules[shader_index];
 	               });
 
-	auto &pipeline_layout = resource_cache.request_pipeline_layout(shader_stages);
+	auto &pipeline_layout = resource_cache.RequestPipelineLayout(shader_stages);
 
 	pipeline_layouts.push_back(&pipeline_layout);
 }
@@ -147,7 +147,7 @@ void ResourceReplay::create_render_pass(ResourceCache &resource_cache, std::istr
 
 	read_subpass_info(stream, subpasses);
 
-	auto &render_pass = resource_cache.request_render_pass(attachments, load_store_infos, subpasses);
+	auto &render_pass = resource_cache.RequestRenderPass(attachments, load_store_infos, subpasses);
 
 	render_passes.push_back(&render_pass);
 }
@@ -213,7 +213,7 @@ void ResourceReplay::create_graphics_pipeline(ResourceCache &resource_cache, std
 	pipeline_state.set_depth_stencil_state(depth_stencil_state);
 	pipeline_state.set_color_blend_state(color_blend_state);
 
-	auto &graphics_pipeline = resource_cache.request_graphics_pipeline(pipeline_state);
+	auto &graphics_pipeline = resource_cache.RequestGraphicsPipeline(pipeline_state);
 
 	graphics_pipelines.push_back(&graphics_pipeline);
 }

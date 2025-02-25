@@ -60,7 +60,7 @@ void PostProcessingComputePass::prepare(CommandBuffer &command_buffer, RenderTar
 {
 	// Build the compute shader upfront
 	auto &resource_cache = get_render_context().get_device().get_resource_cache();
-	resource_cache.request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT, cs_source, cs_variant);
+	resource_cache.RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT, cs_source, cs_variant);
 }
 
 PostProcessingComputePass &PostProcessingComputePass::bind_sampled_image(const std::string &name, core::SampledImage &&new_image)
@@ -103,8 +103,8 @@ void PostProcessingComputePass::transition_images(CommandBuffer &command_buffer,
 
 	// Get compute shader from cache
 	auto &resource_cache  = command_buffer.get_device().get_resource_cache();
-	auto &shader_module   = resource_cache.request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT, cs_source, cs_variant);
-	auto &pipeline_layout = resource_cache.request_pipeline_layout({&shader_module});
+	auto &shader_module   = resource_cache.RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT, cs_source, cs_variant);
+	auto &pipeline_layout = resource_cache.RequestPipelineLayout({&shader_module});
 
 	for (const auto &sampled : sampled_images)
 	{
@@ -201,10 +201,10 @@ void PostProcessingComputePass::draw(CommandBuffer &command_buffer, RenderTarget
 
 	// Get compute shader from cache
 	auto &resource_cache = command_buffer.get_device().get_resource_cache();
-	auto &shader_module  = resource_cache.request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT, cs_source, cs_variant);
+	auto &shader_module  = resource_cache.RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT, cs_source, cs_variant);
 
 	// Create pipeline layout and bind it
-	auto &pipeline_layout = resource_cache.request_pipeline_layout({&shader_module});
+	auto &pipeline_layout = resource_cache.RequestPipelineLayout({&shader_module});
 	command_buffer.bind_pipeline_layout(pipeline_layout);
 
 	const auto &bindings = pipeline_layout.get_descriptor_set_layout(0);

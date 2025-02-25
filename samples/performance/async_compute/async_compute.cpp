@@ -310,15 +310,15 @@ bool AsyncComputeSample::prepare(const vkb::ApplicationOptions &options)
 	// Store the start time to calculate rotation
 	start_time = std::chrono::system_clock::now();
 
-	auto &threshold_module = get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT,
+	auto &threshold_module = get_device().get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT,
 	                                                                                 vkb::ShaderSource("async_compute/threshold.comp"));
-	auto &blur_up_module   = get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT,
+	auto &blur_up_module   = get_device().get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT,
 	                                                                                 vkb::ShaderSource("async_compute/blur_up.comp"));
-	auto &blur_down_module = get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT,
+	auto &blur_down_module = get_device().get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT,
 	                                                                                 vkb::ShaderSource("async_compute/blur_down.comp"));
-	threshold_pipeline     = &get_device().get_resource_cache().request_pipeline_layout({&threshold_module});
-	blur_up_pipeline       = &get_device().get_resource_cache().request_pipeline_layout({&blur_up_module});
-	blur_down_pipeline     = &get_device().get_resource_cache().request_pipeline_layout({&blur_down_module});
+	threshold_pipeline     = &get_device().get_resource_cache().RequestPipelineLayout({&threshold_module});
+	blur_up_pipeline       = &get_device().get_resource_cache().RequestPipelineLayout({&blur_up_module});
+	blur_down_pipeline     = &get_device().get_resource_cache().RequestPipelineLayout({&blur_down_module});
 
 	setup_queues();
 
@@ -826,9 +826,9 @@ void AsyncComputeSample::CompositeSubpass::set_texture(const vkb::core::ImageVie
 void AsyncComputeSample::CompositeSubpass::prepare()
 {
 	auto &device   = get_render_context().get_device();
-	auto &vertex   = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader());
-	auto &fragment = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader());
-	layout         = &device.get_resource_cache().request_pipeline_layout({&vertex, &fragment});
+	auto &vertex   = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader());
+	auto &fragment = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader());
+	layout         = &device.get_resource_cache().RequestPipelineLayout({&vertex, &fragment});
 }
 
 void AsyncComputeSample::CompositeSubpass::draw(vkb::CommandBuffer &command_buffer)

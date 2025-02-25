@@ -274,11 +274,11 @@ void MultithreadingRenderPasses::record_separate_secondary_command_buffers(std::
 	// and vkCmdBeginRenderPass for primary command buffers
 	auto &shadow_render_target = *shadow_render_targets[get_render_context().get_active_frame_index()];
 	auto &shadow_render_pass   = main_command_buffer.get_render_pass(shadow_render_target, shadow_render_pipeline->get_load_store(), shadow_render_pipeline->get_subpasses());
-	auto &shadow_framebuffer   = get_device().get_resource_cache().request_framebuffer(shadow_render_target, shadow_render_pass);
+	auto &shadow_framebuffer   = get_device().get_resource_cache().RequestFramebuffer(shadow_render_target, shadow_render_pass);
 
 	auto &scene_render_target = get_render_context().get_active_frame().get_render_target();
 	auto &scene_render_pass   = main_command_buffer.get_render_pass(scene_render_target, main_render_pipeline->get_load_store(), main_render_pipeline->get_subpasses());
-	auto &scene_framebuffer   = get_device().get_resource_cache().request_framebuffer(scene_render_target, scene_render_pass);
+	auto &scene_framebuffer   = get_device().get_resource_cache().RequestFramebuffer(scene_render_target, scene_render_pass);
 
 	// Recording shadow command buffer
 	auto shadow_buffer_future = thread_pool.push(
@@ -545,7 +545,7 @@ vkb::PipelineLayout &MultithreadingRenderPasses::ShadowSubpass::prepare_pipeline
 
 	vertex_shader_module->set_resource_mode("GlobalUniform", vkb::ShaderResourceMode::Dynamic);
 
-	return command_buffer.get_device().get_resource_cache().request_pipeline_layout({vertex_shader_module});
+	return command_buffer.get_device().get_resource_cache().RequestPipelineLayout({vertex_shader_module});
 }
 
 void MultithreadingRenderPasses::ShadowSubpass::prepare_push_constants(vkb::CommandBuffer &command_buffer, vkb::sg::SubMesh &sub_mesh)

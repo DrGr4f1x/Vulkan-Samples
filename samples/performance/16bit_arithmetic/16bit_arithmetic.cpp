@@ -147,9 +147,9 @@ bool KHR16BitArithmeticSample::prepare(const vkb::ApplicationOptions &options)
 
 	// Load shader modules.
 	auto &module =
-	    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT,
+	    device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT,
 	                                                      vkb::ShaderSource{"16bit_arithmetic/compute_buffer.comp"});
-	compute_layout = &device.get_resource_cache().request_pipeline_layout({&module});
+	compute_layout = &device.get_resource_cache().RequestPipelineLayout({&module});
 
 	if (supported_extensions)
 	{
@@ -157,16 +157,16 @@ bool KHR16BitArithmeticSample::prepare(const vkb::ApplicationOptions &options)
 		if (supports_push_constant16)
 		{
 			auto &module_fp16 =
-			    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT,
+			    device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT,
 			                                                      vkb::ShaderSource{"16bit_arithmetic/compute_buffer_fp16.comp"}, variant);
-			compute_layout_fp16 = &device.get_resource_cache().request_pipeline_layout({&module_fp16});
+			compute_layout_fp16 = &device.get_resource_cache().RequestPipelineLayout({&module_fp16});
 		}
 		else
 		{
 			auto &module_fp16 =
-			    device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_COMPUTE_BIT,
+			    device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_COMPUTE_BIT,
 			                                                      vkb::ShaderSource{"16bit_arithmetic/compute_buffer_fp16_fallback.comp"}, variant);
-			compute_layout_fp16 = &device.get_resource_cache().request_pipeline_layout({&module_fp16});
+			compute_layout_fp16 = &device.get_resource_cache().RequestPipelineLayout({&module_fp16});
 		}
 	}
 	else
@@ -219,10 +219,10 @@ void KHR16BitArithmeticSample::VisualizationSubpass::draw(vkb::CommandBuffer &co
 void KHR16BitArithmeticSample::VisualizationSubpass::prepare()
 {
 	auto                            &device             = get_render_context().get_device();
-	auto                            &vert_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader());
-	auto                            &frag_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader());
+	auto                            &vert_shader_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader());
+	auto                            &frag_shader_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader());
 	std::vector<vkb::ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
-	layout = &device.get_resource_cache().request_pipeline_layout(shader_modules);
+	layout = &device.get_resource_cache().RequestPipelineLayout(shader_modules);
 }
 
 void KHR16BitArithmeticSample::request_gpu_features(vkb::PhysicalDevice &gpu)

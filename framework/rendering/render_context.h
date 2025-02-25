@@ -33,7 +33,7 @@
 #include "rendering/pipeline_state.h"
 #include "rendering/render_frame.h"
 #include "rendering/render_target.h"
-#include "resource_cache.h"
+#include "ResourceCache.h"
 
 namespace vkb
 {

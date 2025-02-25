@@ -47,8 +47,8 @@ void GeometrySubpass::prepare()
 		for (auto &sub_mesh : mesh->get_submeshes())
 		{
 			auto &variant     = sub_mesh->get_shader_variant();
-			auto &vert_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
-			auto &frag_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
+			auto &vert_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
+			auto &frag_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
 		}
 	}
 }
@@ -172,8 +172,8 @@ void GeometrySubpass::draw_submesh(CommandBuffer &command_buffer, sg::SubMesh &s
 	multisample_state.rasterization_samples = get_sample_count();
 	command_buffer.set_multisample_state(multisample_state);
 
-	auto &vert_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), sub_mesh.get_shader_variant());
-	auto &frag_shader_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), sub_mesh.get_shader_variant());
+	auto &vert_shader_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), sub_mesh.get_shader_variant());
+	auto &frag_shader_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), sub_mesh.get_shader_variant());
 
 	std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
 
@@ -274,7 +274,7 @@ PipelineLayout &GeometrySubpass::prepare_pipeline_layout(CommandBuffer &command_
 		}
 	}
 
-	return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
+	return command_buffer.get_device().get_resource_cache().RequestPipelineLayout(shader_modules);
 }
 
 void GeometrySubpass::prepare_push_constants(CommandBuffer &command_buffer, sg::SubMesh &sub_mesh)

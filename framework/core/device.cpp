@@ -202,7 +202,7 @@ Device::Device(PhysicalDevice &gpu, VkDevice &vulkan_device, VkSurfaceKHR surfac
 
 Device::~Device()
 {
-	resource_cache.clear();
+	resource_cache.Clear();
 
 	command_pool.reset();
 	fence_pool.reset();

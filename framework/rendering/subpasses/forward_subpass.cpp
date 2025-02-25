@@ -51,8 +51,8 @@ void ForwardSubpass::prepare()
 
 			variant.add_definitions(vkb::rendering::light_type_definitions);
 
-			auto &vert_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
-			auto &frag_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
+			auto &vert_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
+			auto &frag_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
 		}
 	}
 }

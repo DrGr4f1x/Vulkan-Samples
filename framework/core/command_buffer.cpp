@@ -143,7 +143,7 @@ void CommandBuffer::begin_render_pass(const RenderTarget                        
 	descriptor_set_layout_binding_state.clear();
 
 	auto &render_pass = get_render_pass(render_target, load_store_infos, subpasses);
-	auto &framebuffer = get_device().get_resource_cache().request_framebuffer(render_target, render_pass);
+	auto &framebuffer = get_device().get_resource_cache().RequestFramebuffer(render_target, render_pass);
 
 	begin_render_pass(render_target, render_pass, framebuffer, clear_values, contents);
 }
@@ -497,7 +497,7 @@ void CommandBuffer::flush_pipeline_state(VkPipelineBindPoint pipeline_bind_point
 	if (pipeline_bind_point == VK_PIPELINE_BIND_POINT_GRAPHICS)
 	{
 		pipeline_state.set_render_pass(*current_render_pass.render_pass);
-		auto &pipeline = get_device().get_resource_cache().request_graphics_pipeline(pipeline_state);
+		auto &pipeline = get_device().get_resource_cache().RequestGraphicsPipeline(pipeline_state);
 
 		vkCmdBindPipeline(get_handle(),
 		                  pipeline_bind_point,
@@ -505,7 +505,7 @@ void CommandBuffer::flush_pipeline_state(VkPipelineBindPoint pipeline_bind_point
 	}
 	else if (pipeline_bind_point == VK_PIPELINE_BIND_POINT_COMPUTE)
 	{
-		auto &pipeline = get_device().get_resource_cache().request_compute_pipeline(pipeline_state);
+		auto &pipeline = get_device().get_resource_cache().RequestComputePipeline(pipeline_state);
 
 		vkCmdBindPipeline(get_handle(),
 		                  pipeline_bind_point,
@@ -798,6 +798,6 @@ RenderPass &CommandBuffer::get_render_pass(const vkb::RenderTarget              
 		++subpass_info_it;
 	}
 
-	return get_device().get_resource_cache().request_render_pass(render_target.get_attachments(), load_store_infos, subpass_infos);
+	return get_device().get_resource_cache().RequestRenderPass(render_target.get_attachments(), load_store_infos, subpass_infos);
 }
 }        // namespace vkb

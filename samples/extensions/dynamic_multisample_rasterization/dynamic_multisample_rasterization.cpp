@@ -755,10 +755,10 @@ void DynamicMultisampleRasterization::prepare_gui_pipeline()
 	vkb::ShaderSource vert_shader("uioverlay/uioverlay.vert");
 	vkb::ShaderSource frag_shader("uioverlay/uioverlay.frag");
 
-	shader_modules.push_back(&get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, vert_shader, {}));
-	shader_modules.push_back(&get_device().get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader, {}));
+	shader_modules.push_back(&get_device().get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, vert_shader, {}));
+	shader_modules.push_back(&get_device().get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader, {}));
 
-	pipeline_layout_gui = get_device().get_resource_cache().request_pipeline_layout(shader_modules).get_handle();
+	pipeline_layout_gui = get_device().get_resource_cache().RequestPipelineLayout(shader_modules).get_handle();
 
 	// Create graphics pipeline for dynamic rendering
 	VkFormat color_rendering_format = get_render_context().get_format();

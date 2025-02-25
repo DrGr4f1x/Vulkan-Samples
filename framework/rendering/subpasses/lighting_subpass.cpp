@@ -38,8 +38,8 @@ void LightingSubpass::prepare()
 	lighting_variant.add_definitions(vkb::rendering::light_type_definitions);
 	// Build all shaders upfront
 	auto &resource_cache = get_render_context().get_device().get_resource_cache();
-	resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), lighting_variant);
-	resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), lighting_variant);
+	resource_cache.RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), lighting_variant);
+	resource_cache.RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), lighting_variant);
 }
 
 void LightingSubpass::draw(CommandBuffer &command_buffer)
@@ -49,13 +49,13 @@ void LightingSubpass::draw(CommandBuffer &command_buffer)
 
 	// Get shaders from cache
 	auto &resource_cache     = command_buffer.get_device().get_resource_cache();
-	auto &vert_shader_module = resource_cache.request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), lighting_variant);
-	auto &frag_shader_module = resource_cache.request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), lighting_variant);
+	auto &vert_shader_module = resource_cache.RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), lighting_variant);
+	auto &frag_shader_module = resource_cache.RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), lighting_variant);
 
 	std::vector<ShaderModule *> shader_modules{&vert_shader_module, &frag_shader_module};
 
 	// Create pipeline layout and bind it
-	auto &pipeline_layout = resource_cache.request_pipeline_layout(shader_modules);
+	auto &pipeline_layout = resource_cache.RequestPipelineLayout(shader_modules);
 	command_buffer.bind_pipeline_layout(pipeline_layout);
 
 	// we know, that the lighting subpass does not have any vertex stage input -> reset the vertex input state

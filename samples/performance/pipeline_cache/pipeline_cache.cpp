@@ -70,7 +70,7 @@ PipelineCache::~PipelineCache()
 		vkDestroyPipelineCache(get_device().get_handle(), pipeline_cache, nullptr);
 	}
 
-	vkb::fs::write_temp(get_device().get_resource_cache().serialize(), "cache.data");
+	vkb::fs::write_temp(get_device().get_resource_cache().Serialize(), "cache.data");
 }
 
 bool PipelineCache::prepare(const vkb::ApplicationOptions &options)
@@ -103,7 +103,7 @@ bool PipelineCache::prepare(const vkb::ApplicationOptions &options)
 	vkb::ResourceCache &resource_cache = get_device().get_resource_cache();
 
 	// Use pipeline cache to store pipelines
-	resource_cache.set_pipeline_cache(pipeline_cache);
+	resource_cache.SetPipelineCache(pipeline_cache);
 
 	std::vector<uint8_t> data_cache;
 
@@ -117,7 +117,7 @@ bool PipelineCache::prepare(const vkb::ApplicationOptions &options)
 	}
 
 	// Build all pipelines from a previous run
-	resource_cache.warmup(data_cache);
+	resource_cache.Warmup(data_cache);
 
 	get_stats().request_stats({vkb::StatIndex::frame_times});
 
@@ -156,12 +156,12 @@ void PipelineCache::draw_gui()
 			    if (enable_pipeline_cache)
 			    {
 				    // Use pipeline cache to store pipelines
-				    resource_cache.set_pipeline_cache(pipeline_cache);
+				    resource_cache.SetPipelineCache(pipeline_cache);
 			    }
 			    else
 			    {
 				    // Don't use a pipeline cache
-				    resource_cache.set_pipeline_cache(VK_NULL_HANDLE);
+				    resource_cache.SetPipelineCache(VK_NULL_HANDLE);
 			    }
 		    }
 
@@ -170,7 +170,7 @@ void PipelineCache::draw_gui()
 		    if (ImGui::Button("Destroy Pipelines", button_size))
 		    {
 			    get_device().wait_idle();
-			    get_device().get_resource_cache().clear_pipelines();
+			    get_device().get_resource_cache().ClearPipelines();
 			    record_frame_time_next_frame = true;
 		    }
 

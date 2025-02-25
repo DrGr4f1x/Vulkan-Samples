@@ -110,7 +110,7 @@ void RenderContext::update_swapchain(const VkExtent2D &extent)
 		return;
 	}
 
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 
 	swapchain = std::make_unique<Swapchain>(*swapchain, extent);
 
@@ -125,7 +125,7 @@ void RenderContext::update_swapchain(const uint32_t image_count)
 		return;
 	}
 
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 
 	device.wait_idle();
 
@@ -142,7 +142,7 @@ void RenderContext::update_swapchain(const std::set<VkImageUsageFlagBits> &image
 		return;
 	}
 
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 
 	swapchain = std::make_unique<Swapchain>(*swapchain, image_usage_flags);
 
@@ -157,7 +157,7 @@ void RenderContext::update_swapchain(const VkExtent2D &extent, const VkSurfaceTr
 		return;
 	}
 
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 
 	auto width  = extent.width;
 	auto height = extent.height;
@@ -183,7 +183,7 @@ void RenderContext::update_swapchain(const VkImageCompressionFlagsEXT compressio
 		return;
 	}
 
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 
 	swapchain = std::make_unique<Swapchain>(*swapchain, compression, compression_fixed_rate);
 
@@ -221,7 +221,7 @@ void RenderContext::recreate()
 		++frame_it;
 	}
 
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 }
 
 bool RenderContext::handle_surface_changes(bool force_update)
@@ -507,7 +507,7 @@ Device &RenderContext::get_device()
 void RenderContext::recreate_swapchain()
 {
 	device.wait_idle();
-	device.get_resource_cache().clear_framebuffers();
+	device.get_resource_cache().ClearFramebuffers();
 
 	VkExtent2D swapchain_extent = swapchain->get_extent();
 	VkExtent3D extent{swapchain_extent.width, swapchain_extent.height, 1};

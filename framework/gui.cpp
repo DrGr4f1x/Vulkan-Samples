@@ -249,10 +249,10 @@ Gui::Gui(VulkanSampleC &sample_, const Window &window, const Stats *stats, const
 	vkb::ShaderSource frag_shader("imgui.frag");
 
 	std::vector<vkb::ShaderModule *> shader_modules;
-	shader_modules.push_back(&device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, vert_shader, {}));
-	shader_modules.push_back(&device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader, {}));
+	shader_modules.push_back(&device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, vert_shader, {}));
+	shader_modules.push_back(&device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, frag_shader, {}));
 
-	pipeline_layout = &device.get_resource_cache().request_pipeline_layout(shader_modules);
+	pipeline_layout = &device.get_resource_cache().RequestPipelineLayout(shader_modules);
 
 	sampler = std::make_unique<core::Sampler>(device, sampler_info);
 	sampler->set_debug_name("GUI sampler");

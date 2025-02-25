@@ -79,83 +79,76 @@ struct ResourceCacheState
 class ResourceCache
 {
   public:
-	ResourceCache(Device &device);
+	ResourceCache(Device& device);
 
-	ResourceCache(const ResourceCache &) = delete;
+	ResourceCache(const ResourceCache&) = delete;
 
-	ResourceCache(ResourceCache &&) = delete;
+	ResourceCache(ResourceCache&&) = delete;
 
-	ResourceCache &operator=(const ResourceCache &) = delete;
+	ResourceCache& operator=(const ResourceCache&) = delete;
 
-	ResourceCache &operator=(ResourceCache &&) = delete;
+	ResourceCache& operator=(ResourceCache&&) = delete;
 
-	void warmup(const std::vector<uint8_t> &data);
+	void Warmup(const std::vector<uint8_t>& data);
 
-	std::vector<uint8_t> serialize();
+	std::vector<uint8_t> Serialize();
 
-	void set_pipeline_cache(VkPipelineCache pipeline_cache);
+	void SetPipelineCache(VkPipelineCache pipelineCache);
 
-	ShaderModule &request_shader_module(VkShaderStageFlagBits stage, const ShaderSource &glsl_source, const ShaderVariant &shader_variant = {});
+	ShaderModule& RequestShaderModule(VkShaderStageFlagBits stage, const ShaderSource& glslSource, const ShaderVariant& shaderVariant = {});
 
-	PipelineLayout &request_pipeline_layout(const std::vector<ShaderModule *> &shader_modules);
+	PipelineLayout& RequestPipelineLayout(const std::vector<ShaderModule*>& shaderModules);
 
-	DescriptorSetLayout &request_descriptor_set_layout(const uint32_t                     set_index,
-	                                                   const std::vector<ShaderModule *> &shader_modules,
-	                                                   const std::vector<ShaderResource> &set_resources);
+	DescriptorSetLayout& RequestDescriptorSetLayout(const uint32_t setIndex, const std::vector<ShaderModule*>& shaderModules, const std::vector<ShaderResource>& setResources);
 
-	GraphicsPipeline &request_graphics_pipeline(PipelineState &pipeline_state);
+	GraphicsPipeline& RequestGraphicsPipeline(PipelineState& pipelineState);
 
-	ComputePipeline &request_compute_pipeline(PipelineState &pipeline_state);
+	ComputePipeline& RequestComputePipeline(PipelineState& pipelineState);
 
-	DescriptorSet &request_descriptor_set(DescriptorSetLayout &                     descriptor_set_layout,
-	                                      const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
-	                                      const BindingMap<VkDescriptorImageInfo> & image_infos);
+	DescriptorSet& RequestDescriptorSet(DescriptorSetLayout& descriptorSetLayout, const BindingMap<VkDescriptorBufferInfo>& bufferInfos, const BindingMap<VkDescriptorImageInfo>& imageInfos);
 
-	RenderPass &request_render_pass(const std::vector<Attachment> &   attachments,
-	                                const std::vector<LoadStoreInfo> &load_store_infos,
-	                                const std::vector<SubpassInfo> &  subpasses);
+	RenderPass& RequestRenderPass(const std::vector<Attachment>& attachments, const std::vector<LoadStoreInfo>& loadStoreInfos, const std::vector<SubpassInfo>& subpasses);
 
-	Framebuffer &request_framebuffer(const RenderTarget &render_target,
-	                                 const RenderPass &  render_pass);
+	Framebuffer& RequestFramebuffer(const RenderTarget& renderTarget, const RenderPass& renderPass);
 
-	void clear_pipelines();
+	void ClearPipelines();
 
 	/// @brief Update those descriptor sets referring to old views
 	/// @param old_views Old image views referred by descriptor sets
 	/// @param new_views New image views to be referred
-	void update_descriptor_sets(const std::vector<core::ImageView> &old_views, const std::vector<core::ImageView> &new_views);
+	void UpdateDescriptorSets(const std::vector<core::ImageView>& oldViews, const std::vector<core::ImageView>& newViews);
 
-	void clear_framebuffers();
+	void ClearFramebuffers();
 
-	void clear();
+	void Clear();
 
-	const ResourceCacheState &get_internal_state() const;
+	const ResourceCacheState& GetInternalState() const;
 
   private:
-	Device &device;
+	Device& m_device;
 
-	ResourceRecord recorder;
+	ResourceRecord m_recorder;
 
-	ResourceReplay replayer;
+	ResourceReplay m_replayer;
 
-	VkPipelineCache pipeline_cache{VK_NULL_HANDLE};
+	VkPipelineCache m_pipelineCache{ VK_NULL_HANDLE };
 
-	ResourceCacheState state;
+	ResourceCacheState m_state;
 
-	std::mutex descriptor_set_mutex;
+	std::mutex m_descriptorSetMutex;
 
-	std::mutex pipeline_layout_mutex;
+	std::mutex m_pipelineLayoutMutex;
 
-	std::mutex shader_module_mutex;
+	std::mutex m_shaderModuleMutex;
 
-	std::mutex descriptor_set_layout_mutex;
+	std::mutex m_descriptorSetLayoutMutex;
 
-	std::mutex graphics_pipeline_mutex;
+	std::mutex m_graphicsPipelineMutex;
 
-	std::mutex render_pass_mutex;
+	std::mutex m_renderPassMutex;
 
-	std::mutex compute_pipeline_mutex;
+	std::mutex m_computePipelineMutex;
 
-	std::mutex framebuffer_mutex;
+	std::mutex m_framebufferMutex;
 };
 }        // namespace vkb

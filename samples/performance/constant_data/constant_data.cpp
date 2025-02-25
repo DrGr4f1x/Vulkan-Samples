@@ -305,8 +305,8 @@ void ConstantData::ConstantDataSubpass::prepare()
 				variant.add_definitions({"PUSH_CONSTANT_LIMIT_256"});
 			}
 
-			auto &vert_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
-			auto &frag_module = device.get_resource_cache().request_shader_module(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
+			auto &vert_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_VERTEX_BIT, get_vertex_shader(), variant);
+			auto &frag_module = device.get_resource_cache().RequestShaderModule(VK_SHADER_STAGE_FRAGMENT_BIT, get_fragment_shader(), variant);
 		}
 	}
 }
@@ -322,7 +322,7 @@ vkb::PipelineLayout &ConstantData::PushConstantSubpass::prepare_pipeline_layout(
 	 * POI
 	 * Since this pipeline doesn't use any custom descriptor set layouts, we just request a pipeline layout without modifying the modules
 	 */
-	return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
+	return command_buffer.get_device().get_resource_cache().RequestPipelineLayout(shader_modules);
 }
 
 void ConstantData::PushConstantSubpass::prepare_push_constants(vkb::CommandBuffer &command_buffer, vkb::sg::SubMesh &sub_mesh)
@@ -388,7 +388,7 @@ vkb::PipelineLayout &ConstantData::DescriptorSetSubpass::prepare_pipeline_layout
 		}
 	}
 
-	return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
+	return command_buffer.get_device().get_resource_cache().RequestPipelineLayout(shader_modules);
 }
 
 void ConstantData::DescriptorSetSubpass::prepare_push_constants(vkb::CommandBuffer &command_buffer, vkb::sg::SubMesh &sub_mesh)
@@ -465,7 +465,7 @@ vkb::PipelineLayout &ConstantData::BufferArraySubpass::prepare_pipeline_layout(v
 	 * POI
 	 * Since this pipeline doesn't use any custom descriptor set layouts, we just request a pipeline layout without modifying the modules
 	 */
-	return command_buffer.get_device().get_resource_cache().request_pipeline_layout(shader_modules);
+	return command_buffer.get_device().get_resource_cache().RequestPipelineLayout(shader_modules);
 }
 
 void ConstantData::BufferArraySubpass::prepare_push_constants(vkb::CommandBuffer &command_buffer, vkb::sg::SubMesh &sub_mesh)
