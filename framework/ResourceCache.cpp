@@ -47,7 +47,7 @@ ResourceCache::ResourceCache(Device& device)
 
 void ResourceCache::Warmup(const std::vector<uint8_t>& data)
 {
-	m_recorder.set_data(data);
+	m_recorder.SetData(data);
 
 	m_replayer.play(*this, m_recorder);
 }
@@ -55,7 +55,7 @@ void ResourceCache::Warmup(const std::vector<uint8_t>& data)
 
 std::vector<uint8_t> ResourceCache::Serialize()
 {
-	return m_recorder.get_data();
+	return m_recorder.GetData();
 }
 
 

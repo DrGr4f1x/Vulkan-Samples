@@ -299,12 +299,12 @@ struct HPPRecordHelper<vkb::core::HPPShaderModule, A...>
 {
 	size_t record(HPPResourceRecord &recorder, A &...args)
 	{
-		return recorder.register_shader_module(args...);
+		return recorder.RegisterShaderModule(args...);
 	}
 
 	void index(HPPResourceRecord &recorder, size_t index, vkb::core::HPPShaderModule &shader_module)
 	{
-		recorder.set_shader_module(index, shader_module);
+		recorder.SetShaderModule(index, shader_module);
 	}
 };
 
@@ -313,12 +313,12 @@ struct HPPRecordHelper<vkb::core::HPPPipelineLayout, A...>
 {
 	size_t record(HPPResourceRecord &recorder, A &...args)
 	{
-		return recorder.register_pipeline_layout(args...);
+		return recorder.RegisterPipelineLayout(args...);
 	}
 
 	void index(HPPResourceRecord &recorder, size_t index, vkb::core::HPPPipelineLayout &pipeline_layout)
 	{
-		recorder.set_pipeline_layout(index, pipeline_layout);
+		recorder.SetPipelineLayout(index, pipeline_layout);
 	}
 };
 
@@ -327,12 +327,12 @@ struct HPPRecordHelper<vkb::core::HPPRenderPass, A...>
 {
 	size_t record(HPPResourceRecord &recorder, A &...args)
 	{
-		return recorder.register_render_pass(args...);
+		return recorder.RegisterRenderPass(args...);
 	}
 
 	void index(HPPResourceRecord &recorder, size_t index, vkb::core::HPPRenderPass &render_pass)
 	{
-		recorder.set_render_pass(index, render_pass);
+		recorder.SetRenderPass(index, render_pass);
 	}
 };
 
@@ -341,12 +341,12 @@ struct HPPRecordHelper<vkb::core::HPPGraphicsPipeline, A...>
 {
 	size_t record(HPPResourceRecord &recorder, A &...args)
 	{
-		return recorder.register_graphics_pipeline(args...);
+		return recorder.RegisterGraphicsPipeline(args...);
 	}
 
 	void index(HPPResourceRecord &recorder, size_t index, vkb::core::HPPGraphicsPipeline &graphics_pipeline)
 	{
-		recorder.set_graphics_pipeline(index, graphics_pipeline);
+		recorder.SetGraphicsPipeline(index, graphics_pipeline);
 	}
 };
 }        // namespace

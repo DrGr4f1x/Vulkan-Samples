@@ -33,8 +33,8 @@ set(FRAMEWORK_FILES
     heightmap.h
     semaphore_pool.h
     resource_binding_state.h
-    resource_cache.h
-    resource_record.h
+    ResourceCache.h
+    ResourceRecord.h
     resource_replay.h
     vulkan_sample.h
     api_vulkan_sample.h
@@ -49,7 +49,7 @@ set(FRAMEWORK_FILES
     hpp_gui.h
     hpp_resource_binding_state.h
     hpp_resource_cache.h
-    hpp_resource_record.h
+    HppResourceRecord.h
     hpp_resource_replay.h
     hpp_semaphore_pool.h
     # Source Files
@@ -63,8 +63,8 @@ set(FRAMEWORK_FILES
     heightmap.cpp
     semaphore_pool.cpp
     resource_binding_state.cpp
-    resource_cache.cpp
-    resource_record.cpp
+    ResourceCache.cpp
+    ResourceRecord.cpp
     resource_replay.cpp
     api_vulkan_sample.cpp
     timer.cpp
@@ -234,9 +234,9 @@ set(CORE_FILES
     core/shader_module.h
     core/pipeline_layout.h
     core/pipeline.h
-    core/descriptor_set_layout.h
-    core/descriptor_pool.h
-    core/descriptor_set.h
+    core/DescriptorSetLayout.h
+    core/DescriptorPool.h
+    core/DescriptorSet.h
     core/queue.h
     core/command_pool.h
     core/swapchain.h
@@ -255,9 +255,9 @@ set(CORE_FILES
     core/hpp_command_buffer.h
     core/hpp_command_pool.h
     core/hpp_debug.h
-    core/hpp_descriptor_pool.h
-    core/hpp_descriptor_set.h
-    core/hpp_descriptor_set_layout.h
+    core/HppDescriptorPool.h
+    core/HppDescriptorSet.h
+    core/HppDescriptorSetLayout.h
     core/hpp_device.h
     core/hpp_framebuffer.h
     core/hpp_image.h
@@ -282,9 +282,9 @@ set(CORE_FILES
     core/shader_module.cpp
     core/pipeline_layout.cpp
     core/pipeline.cpp
-    core/descriptor_set_layout.cpp
-    core/descriptor_pool.cpp
-    core/descriptor_set.cpp
+    core/DescriptorSetLayout.cpp
+    core/DescriptorPool.cpp
+    core/DescriptorSet.cpp
     core/queue.cpp
     core/command_pool.cpp
     core/swapchain.cpp

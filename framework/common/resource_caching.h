@@ -24,7 +24,7 @@
 #include "core/pipeline.h"
 #include "rendering/pipeline_state.h"
 #include "rendering/render_target.h"
-#include "resource_record.h"
+#include "ResourceRecord.h"
 
 #include "common/helpers.h"
 
@@ -672,12 +672,12 @@ struct RecordHelper<ShaderModule, A...>
 {
 	size_t record(ResourceRecord &recorder, A &... args)
 	{
-		return recorder.register_shader_module(args...);
+		return recorder.RegisterShaderModule(args...);
 	}
 
 	void index(ResourceRecord &recorder, size_t index, ShaderModule &shader_module)
 	{
-		recorder.set_shader_module(index, shader_module);
+		recorder.SetShaderModule(index, shader_module);
 	}
 };
 
@@ -686,12 +686,12 @@ struct RecordHelper<PipelineLayout, A...>
 {
 	size_t record(ResourceRecord &recorder, A &... args)
 	{
-		return recorder.register_pipeline_layout(args...);
+		return recorder.RegisterPipelineLayout(args...);
 	}
 
 	void index(ResourceRecord &recorder, size_t index, PipelineLayout &pipeline_layout)
 	{
-		recorder.set_pipeline_layout(index, pipeline_layout);
+		recorder.SetPipelineLayout(index, pipeline_layout);
 	}
 };
 
@@ -700,12 +700,12 @@ struct RecordHelper<RenderPass, A...>
 {
 	size_t record(ResourceRecord &recorder, A &... args)
 	{
-		return recorder.register_render_pass(args...);
+		return recorder.RegisterRenderPass(args...);
 	}
 
 	void index(ResourceRecord &recorder, size_t index, RenderPass &render_pass)
 	{
-		recorder.set_render_pass(index, render_pass);
+		recorder.SetRenderPass(index, render_pass);
 	}
 };
 
@@ -714,12 +714,12 @@ struct RecordHelper<GraphicsPipeline, A...>
 {
 	size_t record(ResourceRecord &recorder, A &... args)
 	{
-		return recorder.register_graphics_pipeline(args...);
+		return recorder.RegisterGraphicsPipeline(args...);
 	}
 
 	void index(ResourceRecord &recorder, size_t index, GraphicsPipeline &graphics_pipeline)
 	{
-		recorder.set_graphics_pipeline(index, graphics_pipeline);
+		recorder.SetGraphicsPipeline(index, graphics_pipeline);
 	}
 };
 }        // namespace

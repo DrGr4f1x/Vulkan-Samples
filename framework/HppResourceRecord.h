@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "resource_record.h"
+#include "ResourceRecord.h"
 #include <core/hpp_pipeline.h>
 
 namespace vkb
@@ -50,58 +50,58 @@ struct HPPSubpassInfo;
 class HPPResourceRecord : private vkb::ResourceRecord
 {
   public:
-	using vkb::ResourceRecord::get_data;
-	using vkb::ResourceRecord::set_data;
+	using vkb::ResourceRecord::GetData;
+	using vkb::ResourceRecord::SetData;
 
-	size_t register_graphics_pipeline(vk::PipelineCache pipeline_cache, vkb::rendering::HPPPipelineState &pipeline_state)
+	size_t RegisterGraphicsPipeline(vk::PipelineCache pipeline_cache, vkb::rendering::HPPPipelineState &pipeline_state)
 	{
-		return vkb::ResourceRecord::register_graphics_pipeline(static_cast<VkPipelineCache>(pipeline_cache),
+		return vkb::ResourceRecord::RegisterGraphicsPipeline(static_cast<VkPipelineCache>(pipeline_cache),
 		                                                       reinterpret_cast<vkb::PipelineState &>(pipeline_state));
 	}
 
-	size_t register_pipeline_layout(const std::vector<vkb::core::HPPShaderModule *> &shader_modules)
+	size_t RegisterPipelineLayout(const std::vector<vkb::core::HPPShaderModule *> &shader_modules)
 	{
-		return vkb::ResourceRecord::register_pipeline_layout(reinterpret_cast<std::vector<vkb::ShaderModule *> const &>(shader_modules));
+		return vkb::ResourceRecord::RegisterPipelineLayout(reinterpret_cast<std::vector<vkb::ShaderModule *> const &>(shader_modules));
 	}
 
-	size_t register_render_pass(const std::vector<vkb::rendering::HPPAttachment> &attachments,
+	size_t RegisterRenderPass(const std::vector<vkb::rendering::HPPAttachment> &attachments,
 	                            const std::vector<vkb::common::HPPLoadStoreInfo> &load_store_infos,
 	                            const std::vector<vkb::core::HPPSubpassInfo>     &subpasses)
 	{
-		return vkb::ResourceRecord::register_render_pass(reinterpret_cast<std::vector<vkb::Attachment> const &>(attachments),
+		return vkb::ResourceRecord::RegisterRenderPass(reinterpret_cast<std::vector<vkb::Attachment> const &>(attachments),
 		                                                 reinterpret_cast<std::vector<vkb::LoadStoreInfo> const &>(load_store_infos),
 		                                                 reinterpret_cast<std::vector<vkb::SubpassInfo> const &>(subpasses));
 	}
 
-	size_t register_shader_module(vk::ShaderStageFlagBits            stage,
+	size_t RegisterShaderModule(vk::ShaderStageFlagBits            stage,
 	                              const vkb::core::HPPShaderSource  &glsl_source,
 	                              const std::string                 &entry_point,
 	                              const vkb::core::HPPShaderVariant &shader_variant)
 	{
-		return vkb::ResourceRecord::register_shader_module(static_cast<VkShaderStageFlagBits>(stage),
+		return vkb::ResourceRecord::RegisterShaderModule(static_cast<VkShaderStageFlagBits>(stage),
 		                                                   reinterpret_cast<vkb::ShaderSource const &>(glsl_source),
 		                                                   entry_point,
 		                                                   reinterpret_cast<vkb::ShaderVariant const &>(shader_variant));
 	}
 
-	void set_graphics_pipeline(size_t index, const vkb::core::HPPGraphicsPipeline &graphics_pipeline)
+	void SetGraphicsPipeline(size_t index, const vkb::core::HPPGraphicsPipeline &graphics_pipeline)
 	{
-		vkb::ResourceRecord::set_graphics_pipeline(index, reinterpret_cast<vkb::GraphicsPipeline const &>(graphics_pipeline));
+		vkb::ResourceRecord::SetGraphicsPipeline(index, reinterpret_cast<vkb::GraphicsPipeline const &>(graphics_pipeline));
 	}
 
-	void set_pipeline_layout(size_t index, const vkb::core::HPPPipelineLayout &pipeline_layout)
+	void SetPipelineLayout(size_t index, const vkb::core::HPPPipelineLayout &pipeline_layout)
 	{
-		vkb::ResourceRecord::set_pipeline_layout(index, reinterpret_cast<vkb::PipelineLayout const &>(pipeline_layout));
+		vkb::ResourceRecord::SetPipelineLayout(index, reinterpret_cast<vkb::PipelineLayout const &>(pipeline_layout));
 	}
 
-	void set_render_pass(size_t index, const vkb::core::HPPRenderPass &render_pass)
+	void SetRenderPass(size_t index, const vkb::core::HPPRenderPass &render_pass)
 	{
-		vkb::ResourceRecord::set_render_pass(index, reinterpret_cast<vkb::RenderPass const &>(render_pass));
+		vkb::ResourceRecord::SetRenderPass(index, reinterpret_cast<vkb::RenderPass const &>(render_pass));
 	}
 
-	void set_shader_module(size_t index, const vkb::core::HPPShaderModule &shader_module)
+	void SetShaderModule(size_t index, const vkb::core::HPPShaderModule &shader_module)
 	{
-		vkb::ResourceRecord::set_shader_module(index, reinterpret_cast<vkb::ShaderModule const &>(shader_module));
+		vkb::ResourceRecord::SetShaderModule(index, reinterpret_cast<vkb::ShaderModule const &>(shader_module));
 	}
 };
 }        // namespace vkb

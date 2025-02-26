@@ -21,7 +21,7 @@
 #include <core/hpp_framebuffer.h>
 #include <core/hpp_pipeline_layout.h>
 #include <core/hpp_render_pass.h>
-#include <hpp_resource_record.h>
+#include <HppResourceRecord.h>
 #include <hpp_resource_replay.h>
 #include <vulkan/vulkan.hpp>
 

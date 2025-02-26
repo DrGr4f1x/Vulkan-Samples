@@ -27,7 +27,7 @@
 #include "core/DescriptorSetLayout.h"
 #include "core/framebuffer.h"
 #include "core/pipeline.h"
-#include "resource_record.h"
+#include "ResourceRecord.h"
 #include "resource_replay.h"
 
 namespace vkb

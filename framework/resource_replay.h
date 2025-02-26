@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "resource_record.h"
+#include "ResourceRecord.h"
 
 namespace vkb
 {

@@ -17,7 +17,7 @@
 
 #include "DescriptorPool.h"
 
-#include "descriptor_set_layout.h"
+#include "DescriptorSetLayout.h"
 #include "device.h"
 
 namespace vkb

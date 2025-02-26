@@ -122,7 +122,7 @@ vkb::core::HPPShaderModule &HPPResourceCache::request_shader_module(vk::ShaderSt
 
 std::vector<uint8_t> HPPResourceCache::serialize()
 {
-	return recorder.get_data();
+	return recorder.GetData();
 }
 
 void HPPResourceCache::set_pipeline_cache(vk::PipelineCache new_pipeline_cache)
@@ -205,7 +205,7 @@ void HPPResourceCache::update_descriptor_sets(const std::vector<vkb::core::HPPIm
 
 void HPPResourceCache::warmup(const std::vector<uint8_t> &data)
 {
-	recorder.set_data(data);
+	recorder.SetData(data);
 
 	replayer.play(*this, recorder);
 }

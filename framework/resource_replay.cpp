@@ -60,7 +60,7 @@ ResourceReplay::ResourceReplay()
 
 void ResourceReplay::play(ResourceCache &resource_cache, ResourceRecord &recorder)
 {
-	std::istringstream stream{recorder.get_stream().str()};
+	std::istringstream stream{ recorder.GetStream().str() };
 
 	while (true)
 	{
