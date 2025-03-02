@@ -31,7 +31,7 @@
 #include "core/shader_module.h"
 #include "core/swapchain.h"
 #include "rendering/pipeline_state.h"
-#include "rendering/render_frame.h"
+#include "rendering/RenderFrame.h"
 #include "rendering/render_target.h"
 #include "ResourceCache.h"
 

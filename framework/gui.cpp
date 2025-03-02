@@ -462,7 +462,7 @@ BufferAllocationC Gui::update_buffers(CommandBuffer &command_buffer)
 
 	upload_draw_data(draw_data, vertex_data.data(), index_data.data());
 
-	auto vertex_allocation = sample.get_render_context().get_active_frame().allocate_buffer(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, vertex_buffer_size);
+	auto vertex_allocation = sample.get_render_context().get_active_frame().AllocateBuffer(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, vertex_buffer_size);
 
 	vertex_allocation.update(vertex_data);
 
@@ -473,7 +473,7 @@ BufferAllocationC Gui::update_buffers(CommandBuffer &command_buffer)
 
 	command_buffer.bind_vertex_buffers(0, buffers, offsets);
 
-	auto index_allocation = sample.get_render_context().get_active_frame().allocate_buffer(VK_BUFFER_USAGE_INDEX_BUFFER_BIT, index_buffer_size);
+	auto index_allocation = sample.get_render_context().get_active_frame().AllocateBuffer(VK_BUFFER_USAGE_INDEX_BUFFER_BIT, index_buffer_size);
 
 	index_allocation.update(index_data);
 

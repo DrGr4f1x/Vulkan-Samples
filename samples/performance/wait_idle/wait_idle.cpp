@@ -85,7 +85,7 @@ void WaitIdle::CustomRenderContext::wait_frame()
 		get_device().wait_idle();
 	}
 
-	frame.reset();
+	frame.Reset();
 }
 
 void WaitIdle::draw_gui()

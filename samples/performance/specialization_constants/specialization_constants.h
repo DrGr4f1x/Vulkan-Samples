@@ -96,7 +96,7 @@ class SpecializationConstants : public vkb::VulkanSampleC
 			std::copy_n(lights.begin(), light_count, light_info.lights);
 
 			auto                  &render_frame = get_render_context().get_active_frame();
-			vkb::BufferAllocationC light_buffer = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(T));
+			vkb::BufferAllocationC light_buffer = render_frame.AllocateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(T));
 			light_buffer.update(light_info);
 
 			return light_buffer;

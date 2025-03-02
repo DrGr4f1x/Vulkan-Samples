@@ -18,7 +18,7 @@
 #include "command_pool.h"
 
 #include "device.h"
-#include "rendering/render_frame.h"
+#include "rendering/RenderFrame.h"
 
 namespace vkb
 {

@@ -461,7 +461,7 @@ void ImageCompressionControlSample::render(vkb::CommandBuffer &command_buffer)
 	auto &postprocessing_subpass = postprocessing_pass.get_subpass(0);
 	postprocessing_subpass.bind_sampled_image("color_sampler", static_cast<int>(Attachments::Color));
 
-	postprocessing_pipeline->draw(command_buffer, get_render_context().get_active_frame().get_render_target());
+	postprocessing_pipeline->draw(command_buffer, get_render_context().get_active_frame().GetRenderTarget());
 }
 
 namespace

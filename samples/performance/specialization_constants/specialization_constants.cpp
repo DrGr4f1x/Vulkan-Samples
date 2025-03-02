@@ -94,11 +94,11 @@ void SpecializationConstants::render(vkb::CommandBuffer &command_buffer)
 	if (specialization_constants_enabled)
 	{
 		command_buffer.set_specialization_constant(0, LIGHT_COUNT);
-		specialization_constants_pipeline->draw(command_buffer, get_render_context().get_active_frame().get_render_target());
+		specialization_constants_pipeline->draw(command_buffer, get_render_context().get_active_frame().GetRenderTarget());
 	}
 	else
 	{
-		standard_pipeline->draw(command_buffer, get_render_context().get_active_frame().get_render_target());
+		standard_pipeline->draw(command_buffer, get_render_context().get_active_frame().GetRenderTarget());
 	}
 }
 

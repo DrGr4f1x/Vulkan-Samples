@@ -160,7 +160,7 @@ void ConstantData::draw_renderpass(vkb::CommandBuffer &command_buffer, vkb::Rend
 
 			for (auto &render_frame : get_render_context().get_render_frames())
 			{
-				render_frame->clear_descriptors();
+				render_frame->ClearDescriptors();
 			}
 
 			// If we are using a descriptor set method, we need to pass the method to the descriptor set pipeline
@@ -210,7 +210,7 @@ void ConstantData::draw_renderpass(vkb::CommandBuffer &command_buffer, vkb::Rend
 		// Update the remaining bindings on all the descriptor sets
 		if (selected_method == Method::UpdateAfterBindDescriptorSets)
 		{
-			get_render_context().get_active_frame().update_descriptor_sets();
+			get_render_context().get_active_frame().UpdateDescriptorSets();
 		}
 
 		command_buffer.end_render_pass();
@@ -353,7 +353,7 @@ void ConstantData::DescriptorSetSubpass::update_uniform(vkb::CommandBuffer &comm
 
 	auto &transform = node.get_transform();
 
-	auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(MVPUniform), thread_index);
+	auto allocation = render_frame.AllocateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(MVPUniform), thread_index);
 
 	mvp = fill_mvp(node, camera);
 
@@ -418,7 +418,7 @@ void ConstantData::BufferArraySubpass::draw(vkb::CommandBuffer &command_buffer)
 		}
 	}
 
-	auto allocation = render_frame.allocate_buffer(VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, sizeof(MVPUniform) * uniforms.size());
+	auto allocation = render_frame.AllocateBuffer(VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, sizeof(MVPUniform) * uniforms.size());
 
 	uint32_t offset = 0;
 	for (size_t i = 0; i < uniforms.size(); ++i)

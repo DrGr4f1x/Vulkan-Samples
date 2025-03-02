@@ -133,7 +133,7 @@ void CommandBufferUsage::update(float delta_time)
 	primary_command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 	get_stats().begin_sampling(primary_command_buffer);
 
-	draw(primary_command_buffer, render_context.get_active_frame().get_render_target());
+	draw(primary_command_buffer, render_context.get_active_frame().GetRenderTarget());
 
 	get_stats().end_sampling(primary_command_buffer);
 	primary_command_buffer.end();
@@ -186,11 +186,11 @@ void CommandBufferUsage::render(vkb::CommandBuffer &primary_command_buffer)
 			// The user will set the number of secondary command buffers used for opaque meshes
 			// There will be additional buffers for transparent meshes and for the GUI
 			get_render_pipeline().draw(
-			    primary_command_buffer, get_render_context().get_active_frame().get_render_target(), VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
+			    primary_command_buffer, get_render_context().get_active_frame().GetRenderTarget(), VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
 		}
 		else
 		{
-			get_render_pipeline().draw(primary_command_buffer, get_render_context().get_active_frame().get_render_target(), VK_SUBPASS_CONTENTS_INLINE);
+			get_render_pipeline().draw(primary_command_buffer, get_render_context().get_active_frame().GetRenderTarget(), VK_SUBPASS_CONTENTS_INLINE);
 		}
 	}
 }
@@ -222,7 +222,7 @@ void CommandBufferUsage::draw_renderpass(vkb::CommandBuffer &primary_command_buf
 		{
 			const auto &queue = get_device().get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
 
-			auto &secondary_command_buffer = get_render_context().get_active_frame().request_command_buffer(queue, subpass->get_state().command_buffer_reset_mode, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
+			auto &secondary_command_buffer = get_render_context().get_active_frame().RequestCommandBuffer(queue, subpass->get_state().command_buffer_reset_mode, VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 
 			secondary_command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, &primary_command_buffer);
 
@@ -277,7 +277,7 @@ vkb::CommandBuffer *CommandBufferUsage::ForwardSubpassSecondary::record_draw_sec
 	const auto &queue = get_render_context().get_device().get_queue_by_flags(VK_QUEUE_GRAPHICS_BIT, 0);
 
 	auto &secondary_command_buffer =
-	    get_render_context().get_active_frame().request_command_buffer(queue, state.command_buffer_reset_mode, VK_COMMAND_BUFFER_LEVEL_SECONDARY, thread_index);
+	    get_render_context().get_active_frame().RequestCommandBuffer(queue, state.command_buffer_reset_mode, VK_COMMAND_BUFFER_LEVEL_SECONDARY, thread_index);
 
 	secondary_command_buffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT | VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT, &primary_command_buffer);
 

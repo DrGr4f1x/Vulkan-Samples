@@ -111,7 +111,7 @@ set(RENDERING_FILES
     rendering/postprocessing_renderpass.h
     rendering/postprocessing_computepass.h
     rendering/render_context.h
-    rendering/render_frame.h
+    rendering/RenderFrame.h
     rendering/render_pipeline.h
     rendering/render_target.h
     rendering/subpass.h
@@ -127,7 +127,7 @@ set(RENDERING_FILES
     rendering/postprocessing_renderpass.cpp
     rendering/postprocessing_computepass.cpp
     rendering/render_context.cpp
-    rendering/render_frame.cpp
+    rendering/RenderFrame.cpp
     rendering/render_pipeline.cpp
     rendering/render_target.cpp
     rendering/hpp_render_context.cpp

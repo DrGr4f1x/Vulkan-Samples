@@ -68,45 +68,45 @@ class RenderFrame
 	static constexpr uint32_t BUFFER_POOL_BLOCK_SIZE = 256;
 
 	// A map of the supported usages to a multiplier for the BUFFER_POOL_BLOCK_SIZE
-	const std::unordered_map<VkBufferUsageFlags, uint32_t> supported_usage_map = {
+	const std::unordered_map<VkBufferUsageFlags, uint32_t> supportedUsageMap = {
 	    {VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, 1},
 	    {VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, 2},        // x2 the size of BUFFER_POOL_BLOCK_SIZE since SSBOs are normally much larger than other types of buffers
 	    {VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, 1},
 	    {VK_BUFFER_USAGE_INDEX_BUFFER_BIT, 1}};
 
-	RenderFrame(Device &device, std::unique_ptr<RenderTarget> &&render_target, size_t thread_count = 1);
+	RenderFrame(Device& device, std::unique_ptr<RenderTarget>&& renderTarget, size_t threadCount = 1);
 
-	RenderFrame(const RenderFrame &) = delete;
+	RenderFrame(const RenderFrame&) = delete;
 
-	RenderFrame(RenderFrame &&) = delete;
+	RenderFrame(RenderFrame&&) = delete;
 
-	RenderFrame &operator=(const RenderFrame &) = delete;
+	RenderFrame& operator=(const RenderFrame&) = delete;
 
-	RenderFrame &operator=(RenderFrame &&) = delete;
+	RenderFrame& operator=(RenderFrame&&) = delete;
 
-	void reset();
+	void Reset();
 
-	Device &get_device();
+	Device& GetDevice();
 
-	const FencePool &get_fence_pool() const;
+	const FencePool& GetFencePool() const;
 
-	VkFence request_fence();
+	VkFence RequestFence();
 
-	const SemaphorePool &get_semaphore_pool() const;
+	const SemaphorePool& GetSemaphorePool() const;
 
-	VkSemaphore request_semaphore();
-	VkSemaphore request_semaphore_with_ownership();
-	void        release_owned_semaphore(VkSemaphore semaphore);
+	VkSemaphore RequestSemaphore();
+	VkSemaphore RequestSemaphoreWithOwnership();
+	void ReleaseOwnedSemaphore(VkSemaphore semaphore);
 
 	/**
 	 * @brief Called when the swapchain changes
 	 * @param render_target A new render target with updated images
 	 */
-	void update_render_target(std::unique_ptr<RenderTarget> &&render_target);
+	void UpdateRenderTarget(std::unique_ptr<RenderTarget>&& renderTarget);
 
-	RenderTarget &get_render_target();
+	RenderTarget& GetRenderTarget();
 
-	const RenderTarget &get_render_target_const() const;
+	const RenderTarget& GetRenderTargetConst() const;
 
 	/**
 	 * @brief Requests a command buffer to the command pool of the active frame
@@ -118,30 +118,30 @@ class RenderFrame
 	 * @param thread_index Selects the thread's command pool used to manage the buffer
 	 * @return A command buffer related to the current active frame
 	 */
-	CommandBuffer &request_command_buffer(const Queue &            queue,
-	                                      CommandBuffer::ResetMode reset_mode   = CommandBuffer::ResetMode::ResetPool,
-	                                      VkCommandBufferLevel     level        = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
-	                                      size_t                   thread_index = 0);
+	CommandBuffer& RequestCommandBuffer(const Queue& queue,
+	                                      CommandBuffer::ResetMode resetMode = CommandBuffer::ResetMode::ResetPool,
+	                                      VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+	                                      size_t threadIndex = 0);
 
-	VkDescriptorSet request_descriptor_set(const DescriptorSetLayout &               descriptor_set_layout,
-	                                       const BindingMap<VkDescriptorBufferInfo> &buffer_infos,
-	                                       const BindingMap<VkDescriptorImageInfo> & image_infos,
-	                                       bool                                      update_after_bind,
-	                                       size_t                                    thread_index = 0);
+	VkDescriptorSet RequestDescriptorSet(const DescriptorSetLayout& descriptorSetLayout,
+	                                       const BindingMap<VkDescriptorBufferInfo>& bufferInfos,
+	                                       const BindingMap<VkDescriptorImageInfo>& imageInfos,
+	                                       bool updateAfterBind,
+	                                       size_t threadIndex = 0);
 
-	void clear_descriptors();
+	void ClearDescriptors();
 
 	/**
 	 * @brief Sets a new buffer allocation strategy
 	 * @param new_strategy The new buffer allocation strategy
 	 */
-	void set_buffer_allocation_strategy(BufferAllocationStrategy new_strategy);
+	void SetBufferAllocationStrategy(BufferAllocationStrategy newStrategy);
 
 	/**
 	 * @brief Sets a new descriptor set management strategy
 	 * @param new_strategy The new descriptor set management strategy
 	 */
-	void set_descriptor_management_strategy(DescriptorManagementStrategy new_strategy);
+	void SetDescriptorManagementStrategy(DescriptorManagementStrategy newStrategy);
 
 	/**
 	 * @param usage Usage of the buffer
@@ -149,15 +149,15 @@ class RenderFrame
 	 * @param thread_index Index of the buffer pool to be used by the current thread
 	 * @return The requested allocation, it may be empty
 	 */
-	BufferAllocationC allocate_buffer(VkBufferUsageFlags usage, VkDeviceSize size, size_t thread_index = 0);
+	BufferAllocationC AllocateBuffer(VkBufferUsageFlags usage, VkDeviceSize size, size_t threadIndex = 0);
 
 	/**
 	 * @brief Updates all the descriptor sets in the current frame at a specific thread index
 	 */
-	void update_descriptor_sets(size_t thread_index = 0);
+	void UpdateDescriptorSets(size_t threadIndex = 0);
 
   private:
-	Device &device;
+	Device& m_device;
 
 	/**
 	 * @brief Retrieve the frame's command pool(s)
@@ -166,30 +166,30 @@ class RenderFrame
 	 *        may trigger a pool re-creation to set necessary flags
 	 * @return The frame's command pool(s)
 	 */
-	std::vector<std::unique_ptr<CommandPool>> &get_command_pools(const Queue &queue, CommandBuffer::ResetMode reset_mode);
+	std::vector<std::unique_ptr<CommandPool>>& GetCommandPools(const Queue& queue, CommandBuffer::ResetMode resetMode);
 
 	/// Commands pools associated to the frame
-	std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>> command_pools;
+	std::map<uint32_t, std::vector<std::unique_ptr<CommandPool>>> m_commandPools;
 
 	/// Descriptor pools for the frame
-	std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorPool>>> descriptor_pools;
+	std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorPool>>> m_descriptorPools;
 
 	/// Descriptor sets for the frame
-	std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorSet>>> descriptor_sets;
+	std::vector<std::unique_ptr<std::unordered_map<std::size_t, DescriptorSet>>> m_descriptorSets;
 
-	FencePool fence_pool;
+	FencePool m_fencePool;
 
-	SemaphorePool semaphore_pool;
+	SemaphorePool m_semaphorePool;
 
-	size_t thread_count;
+	size_t m_threadCount;
 
-	std::unique_ptr<RenderTarget> swapchain_render_target;
+	std::unique_ptr<RenderTarget> m_swapchainRenderTarget;
 
-	BufferAllocationStrategy     buffer_allocation_strategy{BufferAllocationStrategy::MultipleAllocationsPerBuffer};
-	DescriptorManagementStrategy descriptor_management_strategy{DescriptorManagementStrategy::StoreInCache};
+	BufferAllocationStrategy m_bufferAllocationStrategy{BufferAllocationStrategy::MultipleAllocationsPerBuffer};
+	DescriptorManagementStrategy m_descriptorManagementStrategy{DescriptorManagementStrategy::StoreInCache};
 
-	std::map<VkBufferUsageFlags, std::vector<std::pair<BufferPoolC, BufferBlockC *>>> buffer_pools;
+	std::map<VkBufferUsageFlags, std::vector<std::pair<BufferPoolC, BufferBlockC*>>> m_bufferPools;
 
-	static std::vector<uint32_t> collect_bindings_to_update(const DescriptorSetLayout &descriptor_set_layout, const BindingMap<VkDescriptorBufferInfo> &buffer_infos, const BindingMap<VkDescriptorImageInfo> &image_infos);
+	static std::vector<uint32_t> CollectBindingsToUpdate(const DescriptorSetLayout& descriptorSetLayout, const BindingMap<VkDescriptorBufferInfo>& bufferInfos, const BindingMap<VkDescriptorImageInfo>& imageInfos);
 };
 }        // namespace vkb

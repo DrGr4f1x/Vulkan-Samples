@@ -63,7 +63,7 @@ void LightingSubpass::draw(CommandBuffer &command_buffer)
 	command_buffer.set_vertex_input_state({});
 
 	// Get image views of the attachments
-	auto &render_target = get_render_context().get_active_frame().get_render_target();
+	auto &render_target = get_render_context().get_active_frame().GetRenderTarget();
 	auto &target_views  = render_target.get_views();
 	assert(3 < target_views.size());
 
@@ -94,7 +94,7 @@ void LightingSubpass::draw(CommandBuffer &command_buffer)
 
 	// Allocate a buffer using the buffer pool from the active frame to store uniform values and bind it
 	auto &render_frame = get_render_context().get_active_frame();
-	auto  allocation   = render_frame.allocate_buffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(LightUniform));
+	auto  allocation   = render_frame.AllocateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, sizeof(LightUniform));
 	allocation.update(light_uniform);
 	command_buffer.bind_buffer(allocation.get_buffer(), allocation.get_offset(), allocation.get_size(), 0, 3, 0);
 

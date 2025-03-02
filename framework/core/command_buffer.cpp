@@ -20,7 +20,7 @@
 #include "command_pool.h"
 #include "common/error.h"
 #include "device.h"
-#include "rendering/render_frame.h"
+#include "rendering/RenderFrame.h"
 #include "rendering/subpass.h"
 
 #include <glm/gtc/type_ptr.hpp>
@@ -676,7 +676,7 @@ void CommandBuffer::flush_descriptor_state(VkPipelineBindPoint pipeline_bind_poi
 			}
 
 			VkDescriptorSet descriptor_set_handle =
-			    command_pool.get_render_frame()->request_descriptor_set(descriptor_set_layout,
+			    command_pool.get_render_frame()->RequestDescriptorSet(descriptor_set_layout,
 			                                                            buffer_infos,
 			                                                            image_infos,
 			                                                            update_after_bind,

@@ -187,7 +187,7 @@ void LayoutTransitions::draw(vkb::CommandBuffer &command_buffer, vkb::RenderTarg
 	scissor.extent = extent;
 	command_buffer.set_scissor(0, {scissor});
 
-	gbuffer_pipeline.draw(command_buffer, get_render_context().get_active_frame().get_render_target());
+	gbuffer_pipeline.draw(command_buffer, get_render_context().get_active_frame().GetRenderTarget());
 
 	command_buffer.end_render_pass();
 
@@ -221,7 +221,7 @@ void LayoutTransitions::draw(vkb::CommandBuffer &command_buffer, vkb::RenderTarg
 		command_buffer.image_memory_barrier(view, barrier);
 	}
 
-	lighting_pipeline.draw(command_buffer, get_render_context().get_active_frame().get_render_target());
+	lighting_pipeline.draw(command_buffer, get_render_context().get_active_frame().GetRenderTarget());
 
 	if (has_gui())
 	{

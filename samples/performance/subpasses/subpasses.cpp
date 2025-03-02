@@ -179,7 +179,7 @@ void Subpasses::update(float delta_time)
 		// Reset frames, their synchronization objects and their command buffers
 		for (auto &frame : get_render_context().get_render_frames())
 		{
-			frame->reset();
+			frame->Reset();
 		}
 	}
 
@@ -226,7 +226,7 @@ void Subpasses::update(float delta_time)
 		// Reset frames, their synchronization objects and their command buffers
 		for (auto &frame : get_render_context().get_render_frames())
 		{
-			frame->reset();
+			frame->Reset();
 		}
 
 		LOGI("Recreating render target");

@@ -49,8 +49,8 @@ void screenshot(RenderContext &render_context, const std::string &filename)
 
 	// We want the last completed frame since we don't want to be reading from an incomplete framebuffer
 	auto &frame = render_context.get_last_rendered_frame();
-	assert(!frame.get_render_target().get_views().empty());
-	auto &src_image_view = frame.get_render_target().get_views()[0];
+	assert(!frame.GetRenderTarget().get_views().empty());
+	auto &src_image_view = frame.GetRenderTarget().get_views()[0];
 
 	auto width    = render_context.get_surface_extent().width;
 	auto height   = render_context.get_surface_extent().height;
@@ -130,7 +130,7 @@ void screenshot(RenderContext &render_context, const std::string &filename)
 
 	cmd_buf.end();
 
-	queue.submit(cmd_buf, frame.request_fence());
+	queue.submit(cmd_buf, frame.RequestFence());
 
 	queue.wait_idle();
 
